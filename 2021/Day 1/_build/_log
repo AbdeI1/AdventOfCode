@@ -1,0 +1,12 @@
+### Starting build.
+# Target: Day1Code.ml.depends, tags: { extension:ml, file:Day1Code.ml, ocaml, ocamldep, quiet }
+ocamldep.opt -modules Day1Code.ml > Day1Code.ml.depends # cached
+# Target: util.ml.depends, tags: { extension:ml, file:util.ml, ocaml, ocamldep, quiet }
+ocamldep.opt -modules util.ml > util.ml.depends # cached
+# Target: util.cmo, tags: { byte, compile, extension:cmo, extension:ml, file:util.cmo, file:util.ml, implem, ocaml, quiet }
+ocamlc.opt -c -o util.cmo util.ml # cached
+# Target: Day1Code.cmo, tags: { byte, compile, extension:cmo, extension:ml, file:Day1Code.cmo, file:Day1Code.ml, implem, ocaml, quiet }
+ocamlc.opt -c -o Day1Code.cmo Day1Code.ml # cached
+# Target: Day1Code.byte, tags: { byte, dont_link_with, extension:byte, file:Day1Code.byte, link, ocaml, program, quiet }
+ocamlc.opt util.cmo Day1Code.cmo -o Day1Code.byte # cached
+# Compilation successful.
