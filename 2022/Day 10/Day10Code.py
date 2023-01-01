@@ -30,12 +30,12 @@ def part2():
   f = reader()
   c = -1
   x = 1
-  pic = [[' ' for _ in range(40)] for _ in range(6)]
+  pic = [['  ' for _ in range(40)] for _ in range(6)]
   def inc():
     nonlocal c
     c += 1
     if abs(x - c%40) <= 1:
-      pic[c//40][c%40] = '|'
+      pic[c//40][c%40] = '██'
   for l in f:
     ins = l.split()
     if ins[0] == "noop":
