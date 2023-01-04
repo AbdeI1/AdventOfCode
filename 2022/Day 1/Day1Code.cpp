@@ -49,6 +49,7 @@ void part2() {
     }
     s += atoi(l.c_str());
   }
+  ans.push_back(s);
   sort(ans.begin(), ans.end());
   reverse(ans.begin(), ans.end());
   cout << ans[0] + ans[1] + ans[2] << endl;
