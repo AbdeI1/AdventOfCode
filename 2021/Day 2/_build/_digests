@@ -1,7 +1,0 @@
-"Rule: ocaml dependencies ml (%=util )": "\166\188h\184\134\135\143\171\168\164\145\215\134c\230\208"
-"Rule: ocaml: cmo* -> byte (%=Day2Code )": "\nN4\249,\151\190\191\214\247\239.\014\174\245\218"
-"Rule: ocaml: ml -> cmo & cmi (%=Day2Code )": "j\161\031\177q\219]&\237\226?\145\190I,\238"
-"Resource: /mnt/c/Users/bluey/Documents/CodingProjects/AdventOfCode/2021/Day 2/util.ml": "\200\200Q\173\201\195>\219ng\2442 \159\166\027"
-"Rule: ocaml: ml -> cmo & cmi (%=util )": "\147\221\241z\1401\177u\191\250\026U\227w\183\171"
-"Rule: ocaml dependencies ml (%=Day2Code )": "\158\129,\196\2310l\162Y\186\150\177vg8\025"
-"Resource: /mnt/c/Users/bluey/Documents/CodingProjects/AdventOfCode/2021/Day 2/Day2Code.ml": "\207\015\2188,\235\192\026\229du\238\244\202\155+"
