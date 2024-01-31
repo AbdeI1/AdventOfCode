@@ -75,19 +75,18 @@ def part2():
   h = set(hist)
   ans = 0
   for i in range(len(f)):
-    pre = [0]
+    x = 0
     r = ''
     for j in range(len(f[i])):
-      pre.append(pre[-1])
       if (i, j) in h:
         if f[i][j] == "-": continue
         if f[i][j] == 'F' or f[i][j] == 'L':
           r = f[i][j]
         if (f[i][j] == 'J' and r == 'F') or (f[i][j] == '7' and r == 'L'):
-          pre[-1] -= 1
-        pre[-1] += 1
+          x -= 1
+        x += 1
       else:
-        ans += pre[-1] % 2
+        ans += x % 2
   print(ans)
 
 part1()
