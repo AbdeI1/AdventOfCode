@@ -1,5 +1,4 @@
 import pathlib
-from collections import Counter
 
 def reader():
   f = open(f"{pathlib.Path(__file__).parent.resolve()}/sample.txt", 'r').read()
