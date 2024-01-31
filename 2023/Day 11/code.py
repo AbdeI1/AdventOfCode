@@ -7,7 +7,19 @@ def reader():
   return f
 
 def part1():
-  f = reader()
+  f = [list(s) for s in reader()]
+  galaxies = [(i, j) for j in range(len(f)) for i in range(len(f)) if f[i][j] == '#']
+  for i in range(len(f)):
+    a = all(map(lambda x: x == '.', f[i]))
+    if a:
+      for j in range(len(f)):
+        f[i][j] = '*'
+    b = all([f[j][i] == '.' for j in range(len(f))])
+    if b:
+      for j in range(len(f)):
+        f[j][i] = '*'
+  print(f)
+  print(len(galaxies))
   
 def part2():
   f = reader()
