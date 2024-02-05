@@ -13,13 +13,25 @@ def part1():
     a = all(map(lambda x: x == '.', f[i]))
     if a:
       for j in range(len(f)):
-        f[i][j] = '*'
+        f[i][j] = '-'
     b = all([f[j][i] == '.' for j in range(len(f))])
     if b:
       for j in range(len(f)):
-        f[j][i] = '*'
-  print(f)
-  print(len(galaxies))
+        f[j][i] = '*' if f[j][i] == '-' else '|'
+  g = {}
+  for i in range(len(f)):
+    for j in range(len(f[i])):
+      n = (i, j)
+      l = []
+      for d in [(1, 0), (-1, 0), (0, 1), (0, -1)]:
+        o = (n[0] + d[0], n[1] + d[1])
+        if o[0] in range(len(f)) and o[1] in range(len(f[o[0]])):
+          match f[n[0]], [n[1]], f[o[0]][o[1]]:
+            case '*', '*':
+              l.append((o, 1.5))
+      g[n] = l
+            
+  print(g)
   
 def part2():
   f = reader()
