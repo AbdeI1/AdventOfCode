@@ -9,28 +9,43 @@ def reader():
 def part1():
   f = [list(s) for s in reader()]
   galaxies = [(i, j) for j in range(len(f)) for i in range(len(f)) if f[i][j] == '#']
+  count_h = 0
+  count_v = 0
   for i in range(len(f)):
-    a = all(map(lambda x: x == '.', f[i]))
+    a = all(map(lambda x: x in {'.', '|', '-'}, f[i]))
     if a:
       for j in range(len(f)):
         f[i][j] = '-'
-    b = all([f[j][i] == '.' for j in range(len(f))])
+      count_v += 1
+    b = all([f[j][i] in {'.', '-', '|'} for j in range(len(f))])
     if b:
       for j in range(len(f)):
         f[j][i] = '*' if f[j][i] == '-' else '|'
-  g = {}
+      count_h += 1
+  m = []
   for i in range(len(f)):
-    for j in range(len(f[i])):
+    if f[i][0] == '-':
+      m.append(['.']*len(m[-1]))
+      m.append(['.']*len(m[-1]))
+    else:
+      l = []
+      for j in range(len(f[i])):
+        if f[i][j] == '|':
+          l.append('.')
+          l.append('.')
+        else:
+          l.append(f[i][j])
+      m.append(l)
+  g = {}
+  for i in range(len(m)):
+    for j in range(len(m[i])):
       n = (i, j)
       l = []
       for d in [(1, 0), (-1, 0), (0, 1), (0, -1)]:
         o = (n[0] + d[0], n[1] + d[1])
-        if o[0] in range(len(f)) and o[1] in range(len(f[o[0]])):
-          match f[n[0]], [n[1]], f[o[0]][o[1]]:
-            case '*', '*':
-              l.append((o, 1.5))
+        if o[0] in range(len(m)) and o[1] in range(len(m[o[0]])):
+          l.append((o, 1))
       g[n] = l
-            
   print(g)
   
 def part2():
