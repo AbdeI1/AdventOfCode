@@ -1,4 +1,5 @@
 import pathlib
+import heapq
 
 def reader():
   f = open(f"{pathlib.Path(__file__).parent.resolve()}/sample.txt", 'r').read()
@@ -36,7 +37,7 @@ def part1():
         else:
           l.append(f[i][j])
       m.append(l)
-  g = {}
+  G = {}
   for i in range(len(m)):
     for j in range(len(m[i])):
       n = (i, j)
@@ -45,8 +46,12 @@ def part1():
         o = (n[0] + d[0], n[1] + d[1])
         if o[0] in range(len(m)) and o[1] in range(len(m[o[0]])):
           l.append((o, 1))
-      g[n] = l
-  print(g)
+      G[n] = l
+  for g in galaxies:
+    q = [(0, g)]
+    while q:
+      d, n = q.pop(0)
+  print(galaxies)
   
 def part2():
   f = reader()
