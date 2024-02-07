@@ -1,15 +1,13 @@
 import pathlib
-import heapq
 
 def reader():
-  f = open(f"{pathlib.Path(__file__).parent.resolve()}/sample.txt", 'r').read()
+  f = open(f"{pathlib.Path(__file__).parent.resolve()}/input.txt", 'r').read()
   f = f.split('\n')
   f = f[:-1]
   return f
 
 def part1():
   f = [list(s) for s in reader()]
-  galaxies = [(i, j) for j in range(len(f)) for i in range(len(f)) if f[i][j] == '#']
   count_h = 0
   count_v = 0
   for i in range(len(f)):
@@ -37,24 +35,45 @@ def part1():
         else:
           l.append(f[i][j])
       m.append(l)
-  G = {}
-  for i in range(len(m)):
-    for j in range(len(m[i])):
-      n = (i, j)
-      l = []
-      for d in [(1, 0), (-1, 0), (0, 1), (0, -1)]:
-        o = (n[0] + d[0], n[1] + d[1])
-        if o[0] in range(len(m)) and o[1] in range(len(m[o[0]])):
-          l.append((o, 1))
-      G[n] = l
-  for g in galaxies:
-    q = [(0, g)]
-    while q:
-      d, n = q.pop(0)
-  print(galaxies)
+  galaxies = [(i, j) for j in range(len(m[0])) for i in range(len(m)) if m[i][j] == '#']
+  s = 0
+  for g1 in galaxies:
+    for g2 in galaxies:
+      s += abs(g1[0] - g2[0]) + abs(g1[1] - g2[1])
+  print(s // 2)
   
 def part2():
-  f = reader()
+  f = [list(s) for s in reader()]
+  scale = 1000000
+  for i in range(len(f)):
+    a = all(map(lambda x: x in {'.', '|', '-'}, f[i]))
+    if a:
+      for j in range(len(f)):
+        f[i][j] = '-'
+    b = all([f[j][i] in {'.', '-', '|'} for j in range(len(f))])
+    if b:
+      for j in range(len(f)):
+        f[j][i] = '*' if f[j][i] == '-' else '|'
+  galaxies = []
+  r, c = 0, 0
+  for i in range(len(f)):
+    c = 0
+    if f[i][0] == '-':
+      r += scale
+      continue
+    for j  in range(len(f[i])):
+      if f[i][j] == '#':
+        galaxies.append((r, c))
+      elif f[i][j] == '|':
+        c += scale
+        continue
+      c += 1
+    r += 1
+  s = 0
+  for g1 in galaxies:
+    for g2 in galaxies:
+      s += abs(g1[0] - g2[0]) + abs(g1[1] - g2[1])
+  print(s // 2)
 
 part1()
 part2()
