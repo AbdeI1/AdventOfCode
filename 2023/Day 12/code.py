@@ -7,7 +7,17 @@ def reader():
   return f
 
 def part1():
-  f = reader()
+  f = [[x.split()[0]] + [list(map(int, x.split()[1].split(',')))] for x in reader()]
+  print(f)
+  m = 0
+  for s, n in f:
+    s2 = '.'.join(['#'*x for x in n])
+    print(s, len(s))
+    print(s2, len(s2))
+    diff = len(s) - len(s2)
+    print(diff)
+    m = max(m, diff)
+  print(m)
   
 def part2():
   f = reader()
