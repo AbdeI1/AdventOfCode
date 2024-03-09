@@ -1,5 +1,6 @@
 import pathlib
 import re
+from functools import cache
 
 
 def reader():
@@ -47,11 +48,9 @@ def part2():
     p = s.replace('.', 'a').replace('#', 'b').replace('?', '.')
     diff = len(s) - sum(n) - len(n) + 1
     l = [0] * (len(n) + 1)
-    t = 0
-    c1, c2 = 0, 0
 
+    @cache
     def count(i, c):
-      nonlocal t, c1, c2
       if i == len(l) - 1:
         l[i] = c
         p2 = "a" * l[0]
@@ -60,24 +59,16 @@ def part2():
           p2 += "a" * l[j + 1]
         p2 += "b" * n[-1] + "a" * l[-1]
         if re.fullmatch(p, p2):
-          if p[-1] == "b":
-            c1 += 1
-          if p[0] == "b":
-            c2 += 1
-          t += 1
+          return 1
+        return 0
       else:
+        s = 0
         for j in range(c + 1):
           l[i] = j
-          count(i + 1, c - j)
-    count(0, diff)
-    t1 = t
-    t = 0
-    p = "." + p
-    count(0, diff + 1)
-    t2 = t
-    print(t2)
-    print(t1 * (t2 ** 4))
-    ans += t1 * (t2 ** 4)
+          s += count(i + 1, c - j)
+        return s
+    t = count(0, diff)
+    ans += t
   print(ans)
 
 
