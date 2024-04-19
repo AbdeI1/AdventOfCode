@@ -39,7 +39,7 @@ def part1():
 
 def part2():
   f = reader()
-  d = 100
+  d = 10
   s = (0, 0)
   for i in range(len(f)):
     for j in range(len(f[i])):
@@ -51,18 +51,27 @@ def part2():
     break
   q = [(s, 0)]
   v = set()
+  a = {}
+  b = {}
   ans = 0
   while q:
-    (i, j), s = q.pop(0)
-    if s > d or f[i % len(f)][j % len(f[i % len(f)])] == '#':
+    (i, j), st = q.pop(0)
+    ii, jj = i % len(f), j % len(f[i % len(f)])
+    if st > d or f[ii][jj] == '#':
       continue
     if (i, j) in v:
       continue
     v.add((i, j))
-    if s % 2 == d % 2:
+    if (ii, jj) not in a:
+      a[(ii, jj)] = []
+    a[(ii, jj)].append(st)
+    if st not in b:
+      b[st] = set()
+    b[st].add((ii, jj))
+    if st % 2 == d % 2:
       ans += 1
     for d1, d2 in [(1, 0), (-1, 0), (0, 1), (0, -1)]:
-      q.append(((i + d1, j + d2), s + 1))
+      q.append(((i + d1, j + d2), st + 1))
   print(ans)
 
 
