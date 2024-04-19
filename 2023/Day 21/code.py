@@ -72,7 +72,8 @@ def part2():
       ans += 1
     for d1, d2 in [(1, 0), (-1, 0), (0, 1), (0, -1)]:
       q.append(((i + d1, j + d2), st + 1))
-  print(ans)
+  print(a)
+  print(b)
 
 
 part1()
