@@ -13,7 +13,6 @@ def part1():
 
 
 def part2():
-
   print((lambda c: sum(math.prod(map(int, m[4:-1].split(','))) * c if m[0] == 'm' else 0 * (c := 1 if m == "do()" else 0) for m in re.findall(
     r'mul\(\d{1,3},\d{1,3}\)|do\(\)|don\'t\(\)', ''.join(reader()))))(1))
 
