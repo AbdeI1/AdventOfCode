@@ -25,14 +25,8 @@ def part1():
 
 
 def part2():
-  f = reader()
-  c = 0
-  for i in range(1, len(f) - 1):
-    for j in range(1, len(f[i]) - 1):
-      if f[i][j] == 'A':
-        if ((f[i - 1][j - 1] == 'M' and f[i + 1][j + 1] == 'S') or (f[i - 1][j - 1] == 'S' and f[i + 1][j + 1] == 'M')) and ((f[i + 1][j - 1] == 'M' and f[i - 1][j + 1] == 'S') or (f[i + 1][j - 1] == 'S' and f[i - 1][j + 1] == 'M')):
-          c += 1
-  print(c)
+  print((lambda f: len(re.findall(
+    f'(?=(M.M.{{{len(f[0])-2}}}A.{{{len(f[0])-2}}}S.S|M.S.{{{len(f[0])-2}}}A.{{{len(f[0])-2}}}M.S|S.M.{{{len(f[0])-2}}}A.{{{len(f[0])-2}}}S.M|S.S.{{{len(f[0])-2}}}A.{{{len(f[0])-2}}}M.M))', ''.join(f))))(reader()))
 
 
 part1()
