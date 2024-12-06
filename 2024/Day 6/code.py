@@ -32,24 +32,6 @@ def part2():
       if M[i][j] == '^':
         op = (i, j)
   od = (-1, 0)
-
-  def r(p, d):
-    if M[p[0]][p[1]] == '#':
-      return False
-    S = set()
-    l = 0
-    while p[0] in range(len(M)) and p[1] in range(len(M[p[0]])):
-      if (p, d) in S:
-        return True
-      S.add((p, d))
-      pp = p[0] + d[0], p[1] + d[1]
-      while pp[0] in range(len(M)) and pp[1] in range(len(M[pp[0]])) and M[pp[0]][pp[1]] == '#':
-        d = d[1], -d[0]
-        pp = p[0] + d[0], p[1] + d[1]
-      p = pp
-      l += 1
-    return False
-
   p = op
   d = od
   C = set()
