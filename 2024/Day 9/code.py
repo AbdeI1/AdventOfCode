@@ -1,4 +1,6 @@
 import pathlib
+from sortedcontainers import SortedList
+from itertools import accumulate
 
 
 def reader():
@@ -31,8 +33,33 @@ def part1():
     i += 1
   print(sum(i * n for i, n in enumerate(s)))
 
-
 def part2():
+  n = list(map(int, reader()[0]))
+  gaps = [SortedList() for _ in range(10)]
+  for i in range(1, len(n), 2): gaps[n[i]].add(i)
+  pre = list(accumulate(n))
+  c = 0
+  for i in range(len(n) - 1, 0, -2):
+    a = i // 2
+    x, k = -1, len(n)
+    for j in range(n[i], 10):
+      l = gaps[j]
+      if len(l) > 0 and l[0] < k:
+        x = j
+        k = l[0]
+    if x >= 0:
+      gaps[x].remove(k)
+      c += a * n[i] * (2 * (pre[k] - x) + (n[i] - 1)) // 2
+      gaps[x - n[i]].add(k)
+    else:
+      c += a * n[i] * (2 * pre[i-1] + (n[i] - 1)) // 2
+    for l in gaps:
+      if l.count(i-1) > 0: l.remove(i-1)
+  print(c)
+
+
+# slow
+def original_part2():
   n = list(map(int, reader()[0]))
   gaps = [n[i] for i in range(1, len(n), 2)]
   f = [[] for _ in range(len(gaps))]
