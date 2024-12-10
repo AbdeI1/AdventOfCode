@@ -58,7 +58,7 @@ def part2():
   print(c)
 
 
-# slow
+# slow ~ 1.3s
 def original_part2():
   n = list(map(int, reader()[0]))
   gaps = [n[i] for i in range(1, len(n), 2)]
