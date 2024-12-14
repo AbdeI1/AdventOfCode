@@ -29,10 +29,19 @@ def part2():
   W, H = 101, 103
   I = []
   for s in range(W * H):
-    G = [[0 for _ in range(W)] for _ in range(H)]
+    G = [['.' for _ in range(W)] for _ in range(H)]
     for (x, y), (vx, vy) in f:
-      G[(y + vy * s) % H][(x + vx * s) % W] = 255
+      G[(y + vy * s) % H][(x + vx * s) % W] = '#'
     I.append(G)
+  for t, i in enumerate(I):
+    for r in range(len(i) - 2):
+      for c in range(2, len(i[r]) - 2):
+        if i[r][c] == '#' and i[r + 1][(c - 1):(c + 2)] == ['#', '#', '#'] and i[r + 2][(c - 2):(c + 3)] == ['#', '#', '#', '#', '#']:
+          print(t)
+          break
+      else:
+        continue
+      break
 
 
 def original_part2():
