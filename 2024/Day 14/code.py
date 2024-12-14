@@ -33,9 +33,6 @@ def part2():
     for (x, y), (vx, vy) in f:
       G[(y + vy * s) % H][(x + vx * s) % W] = 255
     I.append(G)
-  for t, i in enumerate(I):
-    Image.fromarray(np.array(i, dtype=np.uint8)).save(
-      f"{pathlib.Path(__file__).parent.resolve()}/images/{t}.png")
 
 
 def original_part2():
