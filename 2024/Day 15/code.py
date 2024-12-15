@@ -46,20 +46,20 @@ def part2():
     'v': (1, 0)
   }
 
-  def search(x, y, V=set()):
+  def search(x, y, di=0, dj=0, V=set()):
     if M[x][y] == '#':
       return False
     if M[x][y] == '.' or (x, y) in V:
       return True
     V.add((x, y))
-    b = search(x + di, y + dj, V)
-    return b if M[x][y] == '@' else b and (search(x, y + 1, V) if M[x][y] == '[' else search(x, y - 1, V))
+    b = search(x + di, y + dj, di, dj, V)
+    return b if M[x][y] == '@' or M[x][y] == 'O' else b and (search(x, y + 1, di, dj, V) if M[x][y] == '[' else search(x, y - 1, di, dj, V))
 
   for m in moves:
     di, dj = movements[m]
     i, j = p
     ps = set()
-    if search(i, j, ps):
+    if search(i, j, di, dj, ps):
       for ii, jj in sorted(ps, key=lambda t: (-di * t[0], -dj * t[1])):
         M[ii + di][jj + dj] = M[ii][jj]
         M[ii][jj] = '.'
