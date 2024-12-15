@@ -45,41 +45,25 @@ def part2():
     '^': (-1, 0),
     'v': (1, 0)
   }
+
+  def search(x, y, V=set()):
+    if M[x][y] == '#':
+      return False
+    if M[x][y] == '.' or (x, y) in V:
+      return True
+    V.add((x, y))
+    b = search(x + di, y + dj, V)
+    return b if M[x][y] == '@' else b and (search(x, y + 1, V) if M[x][y] == '[' else search(x, y - 1, V))
+
   for m in moves:
     di, dj = movements[m]
     i, j = p
-    if di == 0:
-      while M[i][j] not in {'#', '.'}:
-        i, j = i + di, j + dj
-      if M[i][j] == '.':
-        while M[i][j] != '@':
-          M[i][j] = M[i - di][j - dj]
-          i, j = i - di, j - dj
-        M[i][j] = '.'
-        p = i + di, j + dj
-    else:
-      ps = set()
-
-      def r(x, y):
-        if M[x][y] == '#':
-          return False
-        if M[x][y] == '.':
-          return True
-        if (x, y) in ps:
-          return True
-        ps.add((x, y))
-        if M[x][y] == '@':
-          return r(x + di, y + dj)
-        if M[x][y] == '[':
-          return r(x, y + 1) and r(x + di, y + dj)
-        if M[x][y] == ']':
-          return r(x, y - 1) and r(x + di, y + dj)
-
-      if r(i, j):
-        for ii, jj in sorted(ps, key=lambda t: -di * t[0]):
-          M[ii + di][jj + dj] = M[ii][jj]
-          M[ii][jj] = '.'
-        p = i + di, j + dj
+    ps = set()
+    if search(i, j, ps):
+      for ii, jj in sorted(ps, key=lambda t: (-di * t[0], -dj * t[1])):
+        M[ii + di][jj + dj] = M[ii][jj]
+        M[ii][jj] = '.'
+      p = i + di, j + dj
   print(sum(100 * i + j for i in range(len(M))
         for j in range(len(M[i])) if M[i][j] == '['))
 
