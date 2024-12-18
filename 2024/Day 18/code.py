@@ -1,4 +1,5 @@
 import pathlib
+import math
 
 
 def reader():
@@ -50,13 +51,24 @@ def part2():
           q.append((d + 1, xx, yy))
     return False
 
-  n = len(f)
+  n = 2 ** int(math.log2(len(f)))
+  s = n >> 1
 
-  for x, y in f:
-    G[x][y] = '#'
-    if not bfs():
-      print(x, y)
-      break
+  for x, y in f[:n]:
+    G[y][x] = '#'
+
+  while s:
+    if bfs():
+      for x, y in f[n:(n + s)]:
+        G[y][x] = '#'
+      n += s
+    else:
+      for x, y in f[(n - s):n]:
+        G[y][x] = '.'
+      n -= s
+    s >>= 1
+
+  print(','.join(map(str, f[n - 1])))
 
 
 part1()
