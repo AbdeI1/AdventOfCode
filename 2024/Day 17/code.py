@@ -47,13 +47,16 @@ def part2():
 
   S = set()
 
+  xor1 = program[3]
+  xor2 = program[7]
+
   def backtrack(A, j):
     if -j > len(program):
       S.add(A >> 3)
       return
     for i in range(8):
-      s = (i ^ 0b101)
-      t = A | i | ((program[j] ^ 0b011 ^ i) << s)
+      s = (i ^ xor1)
+      t = A | i | ((program[j] ^ xor1 ^ xor2 ^ i) << s)
       if simulate(program, t)[j:] == program[j:]:
         backtrack(t << 3, j - 1)
   backtrack(0, -1)
