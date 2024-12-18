@@ -44,15 +44,13 @@ def part1():
 def part2():
   f = reader()
   program = list(map(int, f[4][(f[4].find(': ') + 2):].split(',')))
-  xor1 = program[3]
-  xor2 = program[7]
 
   def backtrack(A=0, j=-1):
     if -j > len(program):
       return A
     m = float('inf')
     for i in range(8):
-      t = (A << 3) | i | ((program[j] ^ xor1 ^ xor2 ^ i) << (i ^ xor1))
+      t = (A << 3) | i
       if simulate(program, t)[j:] == program[j:]:
         m = min(m, backtrack(t, j - 1))
     return m
