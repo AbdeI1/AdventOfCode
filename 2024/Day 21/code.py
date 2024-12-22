@@ -7,6 +7,34 @@ def reader():
   return open(f"{pathlib.Path(__file__).parent.resolve()}/input.txt", 'r').read().split('\n')[:-1]
 
 
+def getPT(G, chars, banned):
+  P = {c: (i, j) for i, r in enumerate(G) for j, c in enumerate(r)}
+  T = {c1: {c2: [] for c2 in chars} for c1 in chars}
+  for c1 in T:
+    for c2 in T[c1]:
+      x1, y1 = P[c1]
+      x2, y2 = P[c2]
+      v = 'v' if x1 < x2 else '^'
+      h = '>' if y1 < y2 else '<'
+      vc = abs(x2 - x1)
+      hc = abs(y2 - y1)
+      v * vc + h * hc
+      q = [(vc, hc, '', x1, y1, 0)]
+      while q:
+        vcc, hcc, s, x, y, m = q.pop(0)
+        if (x, y) in banned:
+          continue
+        if vcc == 0 or hcc == 0:
+          m = 0
+        if m >= 0 and vcc > 0:
+          q.append((vcc - 1, hcc, s + v, x + (1 if x1 < x2 else -1), y, 1))
+        if m <= 0 and hcc > 0:
+          q.append((vcc, hcc - 1, s + h, x, y + (1 if y1 < y2 else -1), -1))
+        if vcc == 0 and hcc == 0:
+          T[c1][c2].append(s)
+  return P, T
+
+
 def part1():
   f = reader()
   G0 = [
@@ -23,33 +51,6 @@ def part1():
     ['#', '^', 'A'],
     ['<', 'v', '>']
   ]
-
-  def getPT(G, chars, banned):
-    P = {c: (i, j) for i, r in enumerate(G) for j, c in enumerate(r)}
-    T = {c1: {c2: [] for c2 in chars} for c1 in chars}
-    for c1 in T:
-      for c2 in T[c1]:
-        x1, y1 = P[c1]
-        x2, y2 = P[c2]
-        v = 'v' if x1 < x2 else '^'
-        h = '>' if y1 < y2 else '<'
-        vc = abs(x2 - x1)
-        hc = abs(y2 - y1)
-        v * vc + h * hc
-        q = [(vc, hc, '', x1, y1, 0)]
-        while q:
-          vcc, hcc, s, x, y, m = q.pop(0)
-          if (x, y) in banned:
-            continue
-          if vcc == 0 or hcc == 0:
-            m = 0
-          if m >= 0 and vcc > 0:
-            q.append((vcc - 1, hcc, s + v, x + (1 if x1 < x2 else -1), y, 1))
-          if m <= 0 and hcc > 0:
-            q.append((vcc, hcc - 1, s + h, x, y + (1 if y1 < y2 else -1), -1))
-          if vcc == 0 and hcc == 0:
-            T[c1][c2].append(s)
-    return P, T
 
   G0P, G0T = getPT(G0, '0123456789A', {(3, 0)})
   G1P, G1T = getPT(G1, '<^>vA', {(0, 0)})
@@ -87,33 +88,6 @@ def part2():
     ['<', 'v', '>']
   ]
 
-  def getPT(G, chars, banned):
-    P = {c: (i, j) for i, r in enumerate(G) for j, c in enumerate(r)}
-    T = {c1: {c2: [] for c2 in chars} for c1 in chars}
-    for c1 in T:
-      for c2 in T[c1]:
-        x1, y1 = P[c1]
-        x2, y2 = P[c2]
-        v = 'v' if x1 < x2 else '^'
-        h = '>' if y1 < y2 else '<'
-        vc = abs(x2 - x1)
-        hc = abs(y2 - y1)
-        v * vc + h * hc
-        q = [(vc, hc, '', x1, y1, 0)]
-        while q:
-          vcc, hcc, s, x, y, m = q.pop(0)
-          if (x, y) in banned:
-            continue
-          if vcc == 0 or hcc == 0:
-            m = 0
-          if m >= 0 and vcc > 0:
-            q.append((vcc - 1, hcc, s + v, x + (1 if x1 < x2 else -1), y, 1))
-          if m <= 0 and hcc > 0:
-            q.append((vcc, hcc - 1, s + h, x, y + (1 if y1 < y2 else -1), -1))
-          if vcc == 0 and hcc == 0:
-            T[c1][c2].append(s)
-    return P, T
-
   G0P, G0T = getPT(G0, '0123456789A', {(3, 0)})
   GCP, GCT = getPT(GC, '<^>vA', {(0, 0)})
 
@@ -129,7 +103,7 @@ def part2():
     l = float('inf')
     for t in GCT[c1][c2]:
       l = min(l, sum(count(cc1, cc2, M - 1)
-              for cc1, cc2 in pairwise('A' + t + 'A')))
+                     for cc1, cc2 in pairwise('A' + t + 'A')))
     return l
 
   ans = 0
