@@ -42,9 +42,7 @@ def part2():
         G[(w, x, y, z)] = {}
       if j not in G[(w, x, y, z)]:
         G[(w, x, y, z)][j] = P[j][i + 1]
-  m = 0
-  for k in G:
-    m = max(m, sum(G[k].values()))
+  m = max(sum(k.values()) for k in G.values())
   print(m)
 
 
