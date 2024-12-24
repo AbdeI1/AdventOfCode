@@ -95,7 +95,7 @@ def part2():
     FD[v] = set(re.findall(r'x\d{2}|y\d{2}', formula))
 
   problems = []
-  for i in range(1, 45):
+  for i in range(1, len(list(filter(lambda t: t[0][0] == 'z', B.items()))) - 1):
     p = f'((x{i:02}) ^ (y{i:02}))'
     formula = getFullFormula(f'z{i:02}')
     if f'{p} ^' not in formula and f'^ {p}' not in formula:
