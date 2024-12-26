@@ -106,7 +106,7 @@ def part2():
   ans = 0
   for s0 in f:
     l = min(sum(count(cc1, cc2, 25)
-                for cc1, cc2 in pairwise('A' + t)) for t in map(lambda l: 'A'.join(l) + 'A', r(G0T, s0, 0, 'A')))
+                for cc1, cc2 in pairwise('A' + t + 'A')) for t in map(lambda l: 'A'.join(l), r(G0T, s0, 0, 'A')))
     ans += l * int(s0[:-1])
   print(ans)
 
