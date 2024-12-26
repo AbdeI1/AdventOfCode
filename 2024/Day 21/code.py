@@ -4,7 +4,7 @@ from functools import cache
 
 
 def reader():
-  return open(f"{pathlib.Path(__file__).parent.resolve()}/input.txt", 'r').read().split('\n')[:-1]
+  return open(f"{pathlib.Path(__file__).parent.resolve()}/sample.txt", 'r').read().split('\n')[:-1]
 
 
 def getPT(G, chars, banned):
@@ -44,9 +44,7 @@ def part1():
   _, G2T = getPT(G2, '<^>vA', {(0, 0)})
 
   def r(T, s, i, c):
-    if i >= len(s):
-      return [[]]
-    return [[t1] + t2 for t1 in T[c][s[i]] for t2 in r(T, s, i + 1, s[i])]
+    return [[t1] + t2 for t1 in T[c][s[i]] for t2 in r(T, s, i + 1, s[i])] if i < len(s) else [[]]
 
   ans = 0
   for s0 in f:
