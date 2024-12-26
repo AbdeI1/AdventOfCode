@@ -9,7 +9,7 @@ import (
 )
 
 func reader() []string {
-	inp, _ := os.ReadFile("Day4input.txt")
+	inp, _ := os.ReadFile("input.txt")
 	f := strings.Split(string(inp), "\n")
 	f = f[:len(f)-1]
 	return f

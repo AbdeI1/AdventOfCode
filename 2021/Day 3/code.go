@@ -9,7 +9,7 @@ import (
 )
 
 func part1() {
-	inp, _ := os.ReadFile("Day3input.txt")
+	inp, _ := os.ReadFile("input.txt")
 	f := strings.Split(string(inp), "\n")
 	f = f[:len(f)-1]
 	eps := ""
@@ -38,7 +38,7 @@ func part1() {
 }
 
 func part2() {
-	inp, _ := os.ReadFile("Day3input.txt")
+	inp, _ := os.ReadFile("input.txt")
 	f := strings.Split(string(inp), "\n")
 	f = f[:len(f)-1]
 	oxy := make([]string, len(f))
