@@ -44,17 +44,17 @@ def part1():
   _, G1T = getPT(G1, '<^>vA', {(0, 0)})
   _, G2T = getPT(G2, '<^>vA', {(0, 0)})
 
-  def r(T, s, i, c):
+  def r(T, s, i=0, c='A'):
     return [[t1] + t2 for t1 in T[c][s[i]] for t2 in r(T, s, i + 1, s[i])] if i < len(s) else [[]]
 
   ans = 0
   for s0 in f:
     l = float('inf')
-    t0 = list(map(lambda l: 'A'.join(l) + 'A', r(G0T, s0, 0, 'A')))
+    t0 = list(map(lambda l: 'A'.join(l) + 'A', r(G0T, s0)))
     for s1 in t0:
-      t1 = list(map(lambda l: 'A'.join(l) + 'A', r(G1T, s1, 0, 'A')))
+      t1 = list(map(lambda l: 'A'.join(l) + 'A', r(G1T, s1)))
       for s2 in t1:
-        t2 = list(map(lambda l: 'A'.join(l) + 'A', r(G2T, s2, 0, 'A')))
+        t2 = list(map(lambda l: 'A'.join(l) + 'A', r(G2T, s2)))
         for s3 in t2:
           l = min(l, len(s3))
     ans += l * int(s0[:-1])
@@ -77,7 +77,7 @@ def part2():
   _, G0T = getPT(G0, '0123456789A', {(3, 0)})
   _, GCT = getPT(GC, '<^>vA', {(0, 0)})
 
-  def r(T, s, i, c):
+  def r(T, s, i=0, c='A'):
     return [[t1] + t2 for t1 in T[c][s[i]] for t2 in r(T, s, i + 1, s[i])] if i < len(s) else [[]]
 
   @cache
@@ -88,7 +88,7 @@ def part2():
   ans = 0
   for s0 in f:
     l = min(sum(count(cc1, cc2, 25)
-                for cc1, cc2 in pairwise('A' + t + 'A')) for t in map(lambda l: 'A'.join(l), r(G0T, s0, 0, 'A')))
+                for cc1, cc2 in pairwise('A' + t + 'A')) for t in map(lambda l: 'A'.join(l), r(G0T, s0)))
     ans += l * int(s0[:-1])
   print(ans)
 
