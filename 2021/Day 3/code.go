@@ -4,11 +4,15 @@ import (
 	"fmt"
 	"funk"
 	"os"
+	"path/filepath"
+	"runtime"
 	"strconv"
 	"strings"
 )
 
 func part1() {
+	_, path, _, _ := runtime.Caller(0)
+	os.Chdir(filepath.Dir(path))
 	inp, _ := os.ReadFile("input.txt")
 	f := strings.Split(string(inp), "\n")
 	f = f[:len(f)-1]
