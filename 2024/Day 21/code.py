@@ -52,9 +52,9 @@ def part1():
     ['<', 'v', '>']
   ]
 
-  G0P, G0T = getPT(G0, '0123456789A', {(3, 0)})
-  G1P, G1T = getPT(G1, '<^>vA', {(0, 0)})
-  G2P, G2T = getPT(G2, '<^>vA', {(0, 0)})
+  _, G0T = getPT(G0, '0123456789A', {(3, 0)})
+  _, G1T = getPT(G1, '<^>vA', {(0, 0)})
+  _, G2T = getPT(G2, '<^>vA', {(0, 0)})
 
   def r(T, s, i, c):
     if i >= len(s):
@@ -88,8 +88,8 @@ def part2():
     ['<', 'v', '>']
   ]
 
-  G0P, G0T = getPT(G0, '0123456789A', {(3, 0)})
-  GCP, GCT = getPT(GC, '<^>vA', {(0, 0)})
+  _, G0T = getPT(G0, '0123456789A', {(3, 0)})
+  _, GCT = getPT(GC, '<^>vA', {(0, 0)})
 
   def r(T, s, i, c):
     if i >= len(s):
@@ -100,19 +100,13 @@ def part2():
   def count(c1, c2, M):
     if M <= 0:
       return 1
-    l = float('inf')
-    for t in GCT[c1][c2]:
-      l = min(l, sum(count(cc1, cc2, M - 1)
-                     for cc1, cc2 in pairwise('A' + t + 'A')))
-    return l
+    return min(sum(count(cc1, cc2, M - 1)
+                   for cc1, cc2 in pairwise('A' + t + 'A')) for t in GCT[c1][c2])
 
   ans = 0
   for s0 in f:
-    t0 = list(map(lambda l: 'A'.join(l) + 'A', r(G0T, s0, 0, 'A')))
-    l = float('inf')
-    for t in t0:
-      l = min(l, sum(count(cc1, cc2, 25)
-              for cc1, cc2 in pairwise('A' + t)))
+    l = min(sum(count(cc1, cc2, 25)
+                for cc1, cc2 in pairwise('A' + t)) for t in map(lambda l: 'A'.join(l) + 'A', r(G0T, s0, 0, 'A')))
     ans += l * int(s0[:-1])
   print(ans)
 
