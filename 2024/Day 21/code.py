@@ -79,16 +79,12 @@ def part2():
   _, GCT = getPT(GC, '<^>vA', {(0, 0)})
 
   def r(T, s, i, c):
-    if i >= len(s):
-      return [[]]
-    return [[t1] + t2 for t1 in T[c][s[i]] for t2 in r(T, s, i + 1, s[i])]
+    return [[t1] + t2 for t1 in T[c][s[i]] for t2 in r(T, s, i + 1, s[i])] if i < len(s) else [[]]
 
   @cache
   def count(c1, c2, M):
-    if M <= 0:
-      return 1
     return min(sum(count(cc1, cc2, M - 1)
-                   for cc1, cc2 in pairwise('A' + t + 'A')) for t in GCT[c1][c2])
+                   for cc1, cc2 in pairwise('A' + t + 'A')) for t in GCT[c1][c2]) if M > 0 else 1
 
   ans = 0
   for s0 in f:
