@@ -4,7 +4,7 @@ from functools import cache
 
 
 def reader():
-  return open(f"{pathlib.Path(__file__).parent.resolve()}/sample.txt", 'r').read().split('\n')[:-1]
+  return open(f"{pathlib.Path(__file__).parent.resolve()}/input.txt", 'r').read().split('\n')[:-1]
 
 
 def getPT(G, chars, banned):
