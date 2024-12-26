@@ -1,10 +1,10 @@
-import pathlib
+import os
+os.chdir(os.path.dirname(__file__))
+
 
 def reader():
-  f = open(f"{pathlib.Path(__file__).parent.resolve()}/input.txt", 'r').read()
-  f = f.split('\n')
-  f = f[:-1]
-  return f
+  return open(f"input.txt", 'r').read().split('\n')[:-1]
+
 
 def part1():
   f = reader()
@@ -13,6 +13,7 @@ def part1():
     s = list(filter(str.isdigit, l))
     ans += int(s[0] + s[-1])
   print(ans)
+
 
 def part2():
   digits = {
@@ -41,8 +42,9 @@ def part2():
         if i > last:
           last = i
           lk = d
-    ans += 10*digits[fk] + digits[lk]
+    ans += 10 * digits[fk] + digits[lk]
   print(ans)
+
 
 part1()
 part2()

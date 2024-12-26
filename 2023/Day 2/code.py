@@ -1,10 +1,10 @@
-import pathlib
+import os
+os.chdir(os.path.dirname(__file__))
+
 
 def reader():
-  f = open(f"{pathlib.Path(__file__).parent.resolve()}/input.txt", 'r').read()
-  f = f.split('\n')
-  f = f[:-1]
-  return f
+  return open(f"input.txt", 'r').read().split('\n')[:-1]
+
 
 def part1():
   f = reader()
@@ -19,17 +19,21 @@ def part1():
         num = int(num)
         match col:
           case 'red':
-            if num > 12: break
+            if num > 12:
+              break
           case 'green':
-            if num > 13: break
+            if num > 13:
+              break
           case 'blue':
-            if num > 14: break
+            if num > 14:
+              break
       else:
         continue
       break
     else:
       ans += ID
   print(ans)
+
 
 def part2():
   f = reader()
@@ -49,6 +53,7 @@ def part2():
           case 'blue': mins[2] = max(mins[2], num)
     ans += mins[0] * mins[1] * mins[2]
   print(ans)
+
 
 part1()
 part2()

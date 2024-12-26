@@ -1,13 +1,11 @@
-import pathlib
+import os
+os.chdir(os.path.dirname(__file__))
 import re
 from functools import cache
 
 
 def reader():
-  f = open(f"{pathlib.Path(__file__).parent.resolve()}/input.txt", 'r').read()
-  f = f.split('\n')
-  f = f[:-1]
-  return f
+  return open(f"input.txt", 'r').read().split('\n')[:-1]
 
 
 def part1():

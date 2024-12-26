@@ -1,10 +1,10 @@
-import pathlib
+import os
+os.chdir(os.path.dirname(__file__))
+
 
 def reader():
-  f = open(f"{pathlib.Path(__file__).parent.resolve()}/input.txt", 'r').read()
-  f = f.split('\n')
-  f = f[:-1]
-  return f
+  return open(f"input.txt", 'r').read().split('\n')[:-1]
+
 
 def part1():
   f = [list(s) for s in reader()]
@@ -24,8 +24,8 @@ def part1():
   m = []
   for i in range(len(f)):
     if f[i][0] == '-':
-      m.append(['.']*len(m[-1]))
-      m.append(['.']*len(m[-1]))
+      m.append(['.'] * len(m[-1]))
+      m.append(['.'] * len(m[-1]))
     else:
       l = []
       for j in range(len(f[i])):
@@ -35,13 +35,15 @@ def part1():
         else:
           l.append(f[i][j])
       m.append(l)
-  galaxies = [(i, j) for j in range(len(m[0])) for i in range(len(m)) if m[i][j] == '#']
+  galaxies = [(i, j) for j in range(len(m[0]))
+              for i in range(len(m)) if m[i][j] == '#']
   s = 0
   for g1 in galaxies:
     for g2 in galaxies:
       s += abs(g1[0] - g2[0]) + abs(g1[1] - g2[1])
   print(s // 2)
-  
+
+
 def part2():
   f = [list(s) for s in reader()]
   scale = 1000000
@@ -61,7 +63,7 @@ def part2():
     if f[i][0] == '-':
       r += scale
       continue
-    for j  in range(len(f[i])):
+    for j in range(len(f[i])):
       if f[i][j] == '#':
         galaxies.append((r, c))
       elif f[i][j] == '|':
@@ -74,6 +76,7 @@ def part2():
     for g2 in galaxies:
       s += abs(g1[0] - g2[0]) + abs(g1[1] - g2[1])
   print(s // 2)
+
 
 part1()
 part2()

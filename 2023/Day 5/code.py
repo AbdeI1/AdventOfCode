@@ -1,10 +1,10 @@
-import pathlib
+import os
+os.chdir(os.path.dirname(__file__))
+
 
 def reader():
-  f = open(f"{pathlib.Path(__file__).parent.resolve()}/input.txt", 'r').read()
-  f = f.split('\n')
-  f = f[:-1]
-  return f
+  return open(f"input.txt", 'r').read().split('\n')[:-1]
+
 
 class RangeMap:
   def __init__(self):
@@ -39,14 +39,15 @@ class RangeMap:
           res.append(range(start, r2.stop))
       return sorted(res, key=lambda r: r.start)
 
+
 def part1():
   f = '\n'.join(reader()).split('\n\n')
-  seeds = list(map(int, f[0][f[0].find(':')+2:].split(" ")))
+  seeds = list(map(int, f[0][f[0].find(':') + 2:].split(" ")))
   maps = []
   for m in f[1:]:
     r = RangeMap()
     for l in m.split('\n')[1:]:
-      nums =  list(map(int, l.split(" ")))
+      nums = list(map(int, l.split(" ")))
       r[range(nums[1], nums[1] + nums[2])] = nums[0] - nums[1]
     maps.append(r)
   ans = float('inf')
@@ -56,26 +57,27 @@ def part1():
       n = n + m[n]
     ans = min(ans, n)
   print(ans)
-  
+
 
 def part2():
   f = '\n'.join(reader()).split('\n\n')
-  seeds = list(map(int, f[0][f[0].find(':')+2:].split(" ")))
+  seeds = list(map(int, f[0][f[0].find(':') + 2:].split(" ")))
   maps = []
   for m in f[1:]:
     r = RangeMap()
     for l in m.split('\n')[1:]:
-      nums =  list(map(int, l.split(" ")))
+      nums = list(map(int, l.split(" ")))
       r[range(nums[1], nums[1] + nums[2])] = nums[0] - nums[1]
     maps.append(r)
   ans = float('inf')
   ranges = []
   for i in range(0, len(seeds), 2):
-    ranges.append(range(seeds[i], seeds[i] + seeds[i+1]))
-  ranges.sort(key = lambda r: r.start)
+    ranges.append(range(seeds[i], seeds[i] + seeds[i + 1]))
+  ranges.sort(key=lambda r: r.start)
   for m in maps:
     ranges = m[ranges]
   print(ranges[0].start)
+
 
 part1()
 part2()

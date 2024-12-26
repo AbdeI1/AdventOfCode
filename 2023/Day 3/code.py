@@ -1,10 +1,10 @@
-import pathlib
+import os
+os.chdir(os.path.dirname(__file__))
+
 
 def reader():
-  f = open(f"{pathlib.Path(__file__).parent.resolve()}/input.txt", 'r').read()
-  f = f.split('\n')
-  f = f[:-1]
-  return f
+  return open(f"input.txt", 'r').read().split('\n')[:-1]
+
 
 def part1():
   f = list(map(list, reader()))
@@ -26,6 +26,7 @@ def part1():
             ans += num
   print(ans)
 
+
 def part2():
   f = list(map(list, reader()))
   ans = 0
@@ -45,8 +46,10 @@ def part2():
             for k in range(s, e):
               f[i + D[0]][k] = '.'
             nums.append(num)
-        if len(nums) == 2: ans += nums[0] * nums[1]
+        if len(nums) == 2:
+          ans += nums[0] * nums[1]
   print(ans)
+
 
 part1()
 part2()

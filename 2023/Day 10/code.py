@@ -1,10 +1,10 @@
-import pathlib
+import os
+os.chdir(os.path.dirname(__file__))
+
 
 def reader():
-  f = open(f"{pathlib.Path(__file__).parent.resolve()}/input.txt", 'r').read()
-  f = f.split('\n')
-  f = f[:-1]
-  return f
+  return open(f"input.txt", 'r').read().split('\n')[:-1]
+
 
 def part1():
   f = reader()
@@ -14,14 +14,14 @@ def part1():
       if f[i][j] == "S":
         s = (i, j)
   hist = [s]
-  if f[s[0]-1][s[1]] in {"|", "7", "F"}:
-    hist.append((s[0]-1, s[1]))
-  elif f[s[0]+1][s[1]] in {"|", "J", "L"}:
-    hist.append((s[0]+1, s[1]))
-  elif f[s[0]][s[1]-1] in {"-", "L", "F"}:
-    hist.append((s[0], s[1]-1))
-  elif f[s[0]][s[1]+1] in {"-", "J", "7"}:
-    hist.append((s[0], s[1]+1))
+  if f[s[0] - 1][s[1]] in {"|", "7", "F"}:
+    hist.append((s[0] - 1, s[1]))
+  elif f[s[0] + 1][s[1]] in {"|", "J", "L"}:
+    hist.append((s[0] + 1, s[1]))
+  elif f[s[0]][s[1] - 1] in {"-", "L", "F"}:
+    hist.append((s[0], s[1] - 1))
+  elif f[s[0]][s[1] + 1] in {"-", "J", "7"}:
+    hist.append((s[0], s[1] + 1))
   while hist[-1] != s:
     p = hist[-1]
     dirs = []
@@ -39,7 +39,8 @@ def part1():
       d = dirs[0]
     hist.append((p[0] + d[0], p[1] + d[1]))
   print(len(hist) // 2)
-  
+
+
 def part2():
   f = reader()
   s = (-1, -1)
@@ -48,14 +49,14 @@ def part2():
       if f[i][j] == "S":
         s = (i, j)
   hist = [s]
-  if f[s[0]-1][s[1]] in {"|", "7", "F"}:
-    hist.append((s[0]-1, s[1]))
-  elif f[s[0]+1][s[1]] in {"|", "J", "L"}:
-    hist.append((s[0]+1, s[1]))
-  elif f[s[0]][s[1]-1] in {"-", "L", "F"}:
-    hist.append((s[0], s[1]-1))
-  elif f[s[0]][s[1]+1] in {"-", "J", "7"}:
-    hist.append((s[0], s[1]+1))
+  if f[s[0] - 1][s[1]] in {"|", "7", "F"}:
+    hist.append((s[0] - 1, s[1]))
+  elif f[s[0] + 1][s[1]] in {"|", "J", "L"}:
+    hist.append((s[0] + 1, s[1]))
+  elif f[s[0]][s[1] - 1] in {"-", "L", "F"}:
+    hist.append((s[0], s[1] - 1))
+  elif f[s[0]][s[1] + 1] in {"-", "J", "7"}:
+    hist.append((s[0], s[1] + 1))
   while hist[-1] != s:
     p = hist[-1]
     dirs = []
@@ -79,7 +80,8 @@ def part2():
     r = ''
     for j in range(len(f[i])):
       if (i, j) in h:
-        if f[i][j] == "-": continue
+        if f[i][j] == "-":
+          continue
         if f[i][j] == 'F' or f[i][j] == 'L':
           r = f[i][j]
         if (f[i][j] == 'J' and r == 'F') or (f[i][j] == '7' and r == 'L'):
@@ -88,6 +90,7 @@ def part2():
       else:
         ans += x % 2
   print(ans)
+
 
 part1()
 part2()

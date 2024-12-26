@@ -1,14 +1,10 @@
-import pathlib
 import os
-os.chdir(pathlib.Path(__file__).parent)
+os.chdir(os.path.dirname(__file__))
 from functools import cache
 
 
 def reader():
-  f = open(f"input.txt", 'r').read()
-  f = f.split('\n')
-  f = f[:-1]
-  return f
+  return open(f"input.txt", 'r').read().split('\n')[:-1]
 
 
 def part1():
