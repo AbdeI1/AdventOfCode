@@ -9,29 +9,16 @@ def reader():
 
 def getPT(G, chars, banned):
   P = {c: (i, j) for i, r in enumerate(G) for j, c in enumerate(r)}
-  T = {c1: {c2: [] for c2 in chars} for c1 in chars}
+  T = {c1: {c2: set() for c2 in chars} for c1 in chars}
   for c1 in T:
     for c2 in T[c1]:
-      x1, y1 = P[c1]
-      x2, y2 = P[c2]
-      v = 'v' if x1 < x2 else '^'
-      h = '>' if y1 < y2 else '<'
-      vc = abs(x2 - x1)
-      hc = abs(y2 - y1)
-      v * vc + h * hc
-      q = [(vc, hc, '', x1, y1, 0)]
-      while q:
-        vcc, hcc, s, x, y, m = q.pop(0)
-        if (x, y) in banned:
-          continue
-        if vcc == 0 or hcc == 0:
-          m = 0
-        if m >= 0 and vcc > 0:
-          q.append((vcc - 1, hcc, s + v, x + (1 if x1 < x2 else -1), y, 1))
-        if m <= 0 and hcc > 0:
-          q.append((vcc, hcc - 1, s + h, x, y + (1 if y1 < y2 else -1), -1))
-        if vcc == 0 and hcc == 0:
-          T[c1][c2].append(s)
+      (x1, y1), (x2, y2) = P[c1], P[c2]
+      v, vc = 'v' if x1 < x2 else '^', abs(x2 - x1)
+      h, hc = '>' if y1 < y2 else '<', abs(y2 - y1)
+      if (x1, y2) not in banned:
+        T[c1][c2].add(h * hc + v * vc)
+      if (x2, y1) not in banned:
+        T[c1][c2].add(v * vc + h * hc)
   return P, T
 
 
