@@ -1,10 +1,11 @@
-import pathlib
+import os
+os.chdir(os.path.dirname(__file__))
 from sortedcontainers import SortedList
 from itertools import accumulate
 
 
 def reader():
-  return open(f"{pathlib.Path(__file__).parent.resolve()}/input.txt", 'r').read().split('\n')[:-1]
+  return open(f"input.txt", 'r').read().split('\n')[:-1]
 
 
 def part1():
@@ -33,10 +34,12 @@ def part1():
     i += 1
   print(sum(i * n for i, n in enumerate(s)))
 
+
 def part2():
   n = list(map(int, reader()[0]))
   gaps = [SortedList() for _ in range(10)]
-  for i in range(1, len(n), 2): gaps[n[i]].add(i)
+  for i in range(1, len(n), 2):
+    gaps[n[i]].add(i)
   pre = list(accumulate(n))
   c = 0
   for i in range(len(n) - 1, 0, -2):
@@ -52,9 +55,10 @@ def part2():
       c += a * n[i] * (2 * (pre[k] - x) + (n[i] - 1)) // 2
       gaps[x - n[i]].add(k)
     else:
-      c += a * n[i] * (2 * pre[i-1] + (n[i] - 1)) // 2
+      c += a * n[i] * (2 * pre[i - 1] + (n[i] - 1)) // 2
     for l in gaps:
-      if l.count(i-1) > 0: l.remove(i-1)
+      if l.count(i - 1) > 0:
+        l.remove(i - 1)
   print(c)
 
 
