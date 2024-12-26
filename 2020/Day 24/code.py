@@ -1,6 +1,10 @@
+import os
+os.chdir(os.path.dirname(__file__))
+
+
 def reader():
-  f = open("Day24input.txt", 'r').read().split('\n')
-  return f[:-1]
+  return open(f"input.txt", 'r').read().split('\n')[:-1]
+
 
 def part1():
   f = reader()
@@ -34,12 +38,13 @@ def part1():
       flippedTiles.remove(pos)
   print(len(flippedTiles))
 
+
 def part2():
   f = reader()
   D = (2000, 2000)
   grid = [[1 for _ in range(D[0])] for _ in range(D[1])]
   for l in f:
-    x, y = D[0]//2, D[1]//2
+    x, y = D[0] // 2, D[1] // 2
     i = 0
     while i < len(l):
       d = ""
@@ -75,23 +80,25 @@ def part2():
         ans += 1
   print(ans)
 
+
 def simulate(grid):
   ng = [[1 for _ in range(len(grid[i]))] for i in range(len(grid))]
-  for i in range(2, len(grid)-2):
-    for j in range(3 if i%2 == 1 else 2, len(grid[i])-2, 2):
+  for i in range(2, len(grid) - 2):
+    for j in range(3 if i % 2 == 1 else 2, len(grid[i]) - 2, 2):
       ng[i][j] = grid[i][j]
       c = 6
-      c -= grid[i+1][j+1]
-      c -= grid[i+1][j-1]
-      c -= grid[i-1][j+1]
-      c -= grid[i-1][j-1]
-      c -= grid[i][j+2]
-      c -= grid[i][j-2]
+      c -= grid[i + 1][j + 1]
+      c -= grid[i + 1][j - 1]
+      c -= grid[i - 1][j + 1]
+      c -= grid[i - 1][j - 1]
+      c -= grid[i][j + 2]
+      c -= grid[i][j - 2]
       if grid[i][j] == 1 and c == 2:
         ng[i][j] = 0
       if grid[i][j] == 0 and (c == 0 or c > 2):
         ng[i][j] = 1
   return ng
+
 
 part1()
 part2()
