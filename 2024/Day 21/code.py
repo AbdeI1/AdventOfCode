@@ -8,7 +8,7 @@ def reader():
   return open(f"input.txt", 'r').read().split('\n')[:-1]
 
 
-def getPT(G, chars, banned):
+def getPT(G, chars):
   P = {c: (i, j) for i, r in enumerate(G) for j, c in enumerate(r)}
   T = {c1: {c2: set() for c2 in chars} for c1 in chars}
   for c1 in T:
@@ -16,9 +16,9 @@ def getPT(G, chars, banned):
       (x1, y1), (x2, y2) = P[c1], P[c2]
       v, vc = 'v' if x1 < x2 else '^', abs(x2 - x1)
       h, hc = '>' if y1 < y2 else '<', abs(y2 - y1)
-      if (x1, y2) not in banned:
+      if G[x1][y2] in chars:
         T[c1][c2].add(h * hc + v * vc)
-      if (x2, y1) not in banned:
+      if G[x2][y1] in chars:
         T[c1][c2].add(v * vc + h * hc)
   return P, T
 
@@ -40,9 +40,9 @@ def part1():
     ['<', 'v', '>']
   ]
 
-  _, G0T = getPT(G0, '0123456789A', {(3, 0)})
-  _, G1T = getPT(G1, '<^>vA', {(0, 0)})
-  _, G2T = getPT(G2, '<^>vA', {(0, 0)})
+  _, G0T = getPT(G0, '0123456789A')
+  _, G1T = getPT(G1, '<^>vA')
+  _, G2T = getPT(G2, '<^>vA')
 
   def r(T, s, i=0, c='A'):
     return [[t1] + t2 for t1 in T[c][s[i]] for t2 in r(T, s, i + 1, s[i])] if i < len(s) else [[]]
@@ -74,8 +74,8 @@ def part2():
     ['<', 'v', '>']
   ]
 
-  _, G0T = getPT(G0, '0123456789A', {(3, 0)})
-  _, GCT = getPT(GC, '<^>vA', {(0, 0)})
+  _, G0T = getPT(G0, '0123456789A')
+  _, GCT = getPT(GC, '<^>vA')
 
   def r(T, s, i=0, c='A'):
     return [[t1] + t2 for t1 in T[c][s[i]] for t2 in r(T, s, i + 1, s[i])] if i < len(s) else [[]]
