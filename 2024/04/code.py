@@ -4,7 +4,7 @@ import re
 
 
 def reader():
-  return open(f"input.txt", 'r').read().split('\n')[:-1]
+  return open(f"input.txt", 'r').read().splitlines()
 
 
 def part1():
@@ -27,7 +27,7 @@ def part1():
 
 def part2():
   print((lambda f: len(re.findall(
-    f'(?=(M.M.{{{len(f[0])-2}}}A.{{{len(f[0])-2}}}S.S|M.S.{{{len(f[0])-2}}}A.{{{len(f[0])-2}}}M.S|S.M.{{{len(f[0])-2}}}A.{{{len(f[0])-2}}}S.M|S.S.{{{len(f[0])-2}}}A.{{{len(f[0])-2}}}M.M))', ''.join(f))))(reader()))
+    f'(?=(M.M.{{{len(f[0]) - 2}}}A.{{{len(f[0]) - 2}}}S.S|M.S.{{{len(f[0]) - 2}}}A.{{{len(f[0]) - 2}}}M.S|S.M.{{{len(f[0]) - 2}}}A.{{{len(f[0]) - 2}}}S.M|S.S.{{{len(f[0]) - 2}}}A.{{{len(f[0]) - 2}}}M.M))', ''.join(f))))(reader()))
 
 
 part1()

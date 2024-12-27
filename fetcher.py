@@ -1,9 +1,7 @@
 import os
 os.chdir(os.path.dirname(__file__))
-from aocd import get_data, submit
-
-years = range(2015, 2020)
-days = range(1, 26)
+import subprocess
+from aocd import get_data, submit as aocd_submit
 
 
 def yname(y): return f"{y}"
@@ -26,7 +24,7 @@ os.chdir(os.path.dirname(__file__))
 
 
 def reader():
-  return open(f"input.txt", 'r').read().split('\\n')[:-1]
+  return open(f"input.txt", 'r').read().splitlines()
 
 
 def part1():
@@ -45,9 +43,17 @@ part2()
 
 
 def fetch(year, day):
-  os.chdir(f"{yname(year)}/{dname(day)}")
-  with open('input.txt', 'w') as f:
+  with open(f"{yname(year)}/{dname(day)}/input.txt", 'w', newline='\n') as f:
     f.write(get_data(year=year, day=day) + '\n')
 
 
-init(years, days)
+def submit(year, day):
+  out = subprocess.run(
+    ['python', f"{yname(year)}/{dname(day)}/code.py"], capture_output=True, text=True).stdout.splitlines()
+  if len(out) > 0:
+    aocd_submit(out[0], part="a", year=year, day=day)
+  if len(out) > 1:
+    aocd_submit(out[1], part="a", year=year, day=day)
+
+
+fetch(2024, 19)

@@ -3,7 +3,7 @@ os.chdir(os.path.dirname(__file__))
 
 
 def reader():
-  return open(f"input.txt", 'r').read().split('\n')[:-1]
+  return open(f"input.txt", 'r').read().splitlines()
 
 
 DIR = {'R': (1, 0), 'L': (-1, 0), 'U': (0, 1), 'D': (0, -1)}

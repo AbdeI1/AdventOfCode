@@ -5,7 +5,7 @@ import numpy as np
 
 
 def reader():
-  return open(f"input.txt", 'r').read().split('\n')[:-1]
+  return open(f"input.txt", 'r').read().splitlines()
 
 
 def part1():
