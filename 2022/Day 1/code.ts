@@ -1,7 +1,7 @@
-import * as fs from "fs";
+import { readFileSync } from "fs";
 
 function reader() {
-  const f = fs.readFileSync("./input.txt", "utf-8");
+  const f = readFileSync("./input.txt", "utf-8");
   let a = f.split("\n");
   a = a.slice(0, -1);
   return a;
@@ -9,7 +9,7 @@ function reader() {
 
 function part1() {
   const f = reader();
-  const a: number[] = f.map((s) => (s == "" ? -1 : parseInt(s)));
+  const a: number[] = f.map((s: string) => (s == "" ? -1 : parseInt(s)));
   let s = 0;
   let ans = -1;
   a.forEach((i) => {
@@ -25,7 +25,7 @@ function part1() {
 
 function part2() {
   const f = reader();
-  const a: number[] = f.map((s) => (s == "" ? -1 : parseInt(s)));
+  const a: number[] = f.map((s: string) => (s == "" ? -1 : parseInt(s)));
   let s = 0;
   let ans: number[] = [];
   a.forEach((i) => {

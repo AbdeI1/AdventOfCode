@@ -7,6 +7,7 @@ public class code {
   public static void main(String args[]) {
     File inputText = new File("input.txt");
     String[] input = reader(inputText, 323);
+    System.out.println(part1(input));
     System.out.println(part2(input, 5, 1));
   }
 
