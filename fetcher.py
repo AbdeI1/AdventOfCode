@@ -53,7 +53,7 @@ def submit(year, day):
   if len(out) > 0:
     aocd_submit(out[0], part="a", year=year, day=day)
   if len(out) > 1:
-    aocd_submit(out[1], part="a", year=year, day=day)
+    aocd_submit(out[1], part="b", year=year, day=day)
 
 
 fetch(2019, 1)
