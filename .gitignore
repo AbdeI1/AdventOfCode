@@ -5,3 +5,4 @@ _build
 *.out
 *.exe
 *.class
+__*
