@@ -3,7 +3,7 @@ from time import sleep
 from collections import defaultdict
 
 
-def compute(code: list[int], inp: list[int], out: list[int]):
+def compute(code: list[int], inp: list[int], out: list[int] = []):
   code = defaultdict(lambda: 0, {i: c for i, c in enumerate(code)})
   ip = 0
   rb = 0
@@ -26,7 +26,7 @@ def compute(code: list[int], inp: list[int], out: list[int]):
     else:
       return i
 
-  while ip in range(len(code)):
+  while True:
     op = code[ip] % 100
     if op == 99:
       break
