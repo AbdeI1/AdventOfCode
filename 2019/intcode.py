@@ -3,7 +3,7 @@ from time import sleep
 from collections import defaultdict
 
 
-def compute(code: list[int], inp: list[int], out: list[int] = []):
+def compute(code: list[int], inp: list[int], out: list[int] = [], block=True):
   code = defaultdict(lambda: 0, {i: c for i, c in enumerate(code)})
   ip = 0
   rb = 0
@@ -40,9 +40,14 @@ def compute(code: list[int], inp: list[int], out: list[int] = []):
                                                 for i in range(2))
       ip += 4
     elif op == 3:
-      while not inp:
+      x = None
+      if block:
+        while not inp:
+          sleep(0)
+        x = inp.pop(0)
+      else:
+        x = -1 if not inp else inp.pop(0)
         sleep(0)
-      x = inp.pop(0)
       if x is None:
         break
       code[index(code[ip + 1], mode[0])] = x
