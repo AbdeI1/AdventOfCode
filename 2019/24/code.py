@@ -35,7 +35,44 @@ def part1():
 
 
 def part2():
-  pass
+  G = reader()
+  h, w = len(G), len(G[0])
+  V = {(i, j, 0) for i in range(h) for j in range(w) if G[i][j] == '#'}
+  for _ in range(200):
+    nV = set()
+    for i, j, l in V:
+      adj = []
+      
+      if i == 0:
+        adj.append((h // 2 - 1, w // 2, l + 1))
+      elif i == h // 2 + 1:
+        adj.extend((h-1, k, l-1) for k in range(w))
+      else:
+        adj.append((i-1, j, l))
+        
+      if i == h-1:
+        adj.append((h // 2 + 1, w // 2, l + 1))
+      elif i == h // 2 - 1:
+        adj.extend((0, k, l-1) for k in range(w))
+      else:
+        adj.append((i+1, j, l))
+        
+      if j == 0:
+        adj.append((h // 2, w // 2 - 1, l + 1))
+      elif j == w // 2 + 1:
+        adj.extend((k, w-1, l-1) for k in range(h))
+      else:
+        adj.append((i, j-1, l))
+        
+      if j == w - 1:
+        adj.append((h // 2, w // 2 + 1, l + 1))
+      elif j == w // 2 - 1:
+        adj.extend((k, 0, l-1) for k in range(h))
+      else:
+        adj.append((i, j+ 1, l))
+      
+      c = sum(1 for x, y, z in adj if (x, y, z) in V) in (1, 2)
+      
 
 
 part1()
