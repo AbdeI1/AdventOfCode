@@ -6,3 +6,4 @@ _build
 *.exe
 *.class
 __*
+debug.log
