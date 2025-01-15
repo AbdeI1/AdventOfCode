@@ -3,6 +3,10 @@ os.chdir(os.path.dirname(__file__))
 import subprocess
 from aocd import get_data, submit as aocd_submit
 
+token = ''
+with open('.session.txt') as f:
+  token = f.read().strip()
+
 
 def yname(y): return f"{y}"
 def dname(d): return f"{d:02}"
@@ -44,16 +48,16 @@ part2()
 
 def fetch(year, day):
   with open(f"{yname(year)}/{dname(day)}/input.txt", 'w', newline='\n') as f:
-    f.write(get_data(year=year, day=day) + '\n')
+    f.write(get_data(year=year, day=day, session=token) + '\n')
 
 
 def submit(year, day):
   out = subprocess.run(
     ['python', f"{yname(year)}/{dname(day)}/code.py"], capture_output=True, text=True).stdout.splitlines()
   if len(out) > 0:
-    aocd_submit(out[0], part="a", year=year, day=day)
+    aocd_submit(out[0], part="a", year=year, day=day, session=token)
   if len(out) > 1:
-    aocd_submit(out[1], part="b", year=year, day=day)
+    aocd_submit(out[1], part="b", year=year, day=day, session=token)
 
 
 y, d = 2018, 1
