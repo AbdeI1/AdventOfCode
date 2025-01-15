@@ -7,5 +7,5 @@ _build
 *.class
 __*
 debug.log
-.session.txt
+.session.data
 

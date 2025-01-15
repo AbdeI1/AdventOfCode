@@ -4,7 +4,7 @@ import subprocess
 from aocd import get_data, submit as aocd_submit
 
 token = ''
-with open('.session.txt') as f:
+with open('.session.data') as f:
   token = f.read().strip()
 
 
@@ -60,7 +60,7 @@ def submit(year, day):
     aocd_submit(out[1], part="b", year=year, day=day, session=token)
 
 
-y, d = 2018, 1
+y, d = 2018, 3
 
 fetch(y, d)
 submit(y, d)
