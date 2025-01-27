@@ -7,7 +7,8 @@ def reader():
 
 
 def part1():
-  pass
+  n = int(reader()[0])
+  print(n)
 
 
 def part2():
