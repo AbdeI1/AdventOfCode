@@ -7,7 +7,13 @@ def reader():
 
 
 def part1():
-  pass
+  f = sorted([tuple(map(eval, l[5:].split(">, r=")))[::-1] for l in reader()])
+  R, P = f[-1]
+  a = 0
+  for _, p in f:
+    if sum(abs(p[i] - P[i]) for i in range(3)) <= R:
+      a += 1
+  print(a)
 
 
 def part2():
