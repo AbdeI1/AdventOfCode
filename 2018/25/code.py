@@ -7,7 +7,25 @@ def reader():
 
 
 def part1():
-  pass
+  f = list(map(eval, reader()))
+  p = [i for i in range(len(f))]
+
+  def find(x):
+    if x == p[x]:
+      return x
+    p[x] = find(p[x])
+    return p[x]
+
+  for i, c1 in enumerate(f):
+    for j, c2 in enumerate(f):
+      if sum(abs(c1[i] - c2[i]) for i in range(4)) <= 3 and find(i) != find(j):
+        p[find(i)] = p[find(j)]
+
+  C = set()
+  for i in range(len(p)):
+    C.add(find(i))
+
+  print(len(C))
 
 
 def part2():
