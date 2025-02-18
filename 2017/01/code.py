@@ -7,11 +7,14 @@ def reader():
 
 
 def part1():
-  pass
+  f = list(map(int, reader()[0]))
+  print(sum(f[i] for i in range(len(f)) if f[i] == f[(i + 1) % len(f)]))
 
 
 def part2():
-  pass
+  f = list(map(int, reader()[0]))
+  print(sum(f[i] for i in range(len(f)) if f[i]
+        == f[(i + (len(f) // 2)) % len(f)]))
 
 
 part1()

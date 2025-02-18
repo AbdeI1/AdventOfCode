@@ -7,11 +7,12 @@ def reader():
 
 
 def part1():
-  pass
+  print(len(list(filter(lambda s: len(set(s.split())) == len(s.split()), reader()))))
 
 
 def part2():
-  pass
+  print(len(list(filter(lambda s: len(
+    set(map(lambda w: str(sorted(w)), s.split()))) == len(s.split()), reader()))))
 
 
 part1()
