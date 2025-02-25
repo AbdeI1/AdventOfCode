@@ -7,11 +7,26 @@ def reader():
 
 
 def part1():
-  pass
+  f = list(map(int, reader()))
+  i = 0
+  s = 0
+  while i in range(len(f)):
+    f[i] += 1
+    i += (f[i] - 1)
+    s += 1
+  print(s)
 
 
 def part2():
-  pass
+  f = list(map(int, reader()))
+  i = 0
+  s = 0
+  while i in range(len(f)):
+    x = f[i]
+    f[i] += 1 if f[i] < 3 else -1
+    i += x
+    s += 1
+  print(s)
 
 
 part1()
