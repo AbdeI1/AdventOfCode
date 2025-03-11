@@ -19,8 +19,7 @@ def part1():
     Pz = az * T * T / 2 + (vx + (az / 2)) * T + pz
     d = sum(abs(n) for n in [Px, Py, Pz])
     if d < md:
-      mi = i
-      md = d
+      mi, md = i, d
   print(mi)
 
 
