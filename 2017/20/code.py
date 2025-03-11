@@ -54,6 +54,7 @@ def part2():
           c = (round(tt), i, j)
           if c not in C:
             C.append(c)
+  C.sort()
   R = {}
   for t, c1, c2 in C:
     if c1 in R and c2 in R:
