@@ -33,6 +33,7 @@ def part1():
     }
   ]
   T = {}
+
   for l in f:
     a, b = l.split(' => ')
     a = tuple(a.split('/'))
@@ -40,29 +41,33 @@ def part1():
     for _ in range(2):
       for _ in range(4):
         T[a] = b
-        a = tuple(''.join([a[R[len(a)][(i, j)][0]][R[len(a)][(i, j)][1]] for j in range(len(a))]) for i in range(len(a)))
+        a = tuple(''.join([a[R[len(a)][(i, j)][0]][R[len(a)][(i, j)][1]]
+                  for j in range(len(a))]) for i in range(len(a)))
       a = a[::-1]
+
   G = (
     '.#.',
     '..#',
     '###'
   )
-  
+
   @cache
-  def count(G, i = 0):
+  def count(G, i=0):
     if i <= 0:
       return sum([1 for r in G for c in r if c == '#'])
     if len(G) % 2 == 0:
-      return sum(count(T[tuple([r[y:y+2] for r in G[x:x+2]])], i - 1) for x in range(0, len(G), 2) for y in range(0, len(G[x]), 2))
+      return count(sum((tuple(map(lambda l: ''.join(l), zip(*[T[tuple(
+        r[x:x + 2] for r in G[y:y + 2])] for x in range(0, len(G[y]), 2)]))) for y in range(0, len(G), 2)), ()), i - 1)
     elif len(G) % 3 == 0:
-      return sum(count(T[tuple([r[y:y+3] for r in G[x:x+3]])], i - 1) for x in range(0, len(G), 3) for y in range(0, len(G[x]), 3))
+      return sum(count(T[tuple([r[x:x + 3] for r in G[y:y + 3]])], i - 1) for x in range(0, len(G), 3) for y in range(0, len(G[x]), 3))
     return 0
-  
+
   print(count(G, 5))
 
 
 def part2():
   f = reader()
+
   R = [
     {},
     {
@@ -86,6 +91,7 @@ def part2():
       (2, 2): (2, 0)
     }
   ]
+
   T = {}
   for l in f:
     a, b = l.split(' => ')
@@ -94,25 +100,28 @@ def part2():
     for _ in range(2):
       for _ in range(4):
         T[a] = b
-        a = tuple(''.join([a[R[len(a)][(i, j)][0]][R[len(a)][(i, j)][1]] for j in range(len(a))]) for i in range(len(a)))
+        a = tuple(''.join([a[R[len(a)][(i, j)][0]][R[len(a)][(i, j)][1]]
+                  for j in range(len(a))]) for i in range(len(a)))
       a = a[::-1]
+
   G = (
     '.#.',
     '..#',
     '###'
   )
-  
+
   @cache
-  def count(G, i = 0):
+  def count(G, i=0):
     if i <= 0:
       return sum([1 for r in G for c in r if c == '#'])
     if len(G) % 2 == 0:
-      return sum(count(T[tuple([r[y:y+2] for r in G[x:x+2]])], i - 1) for x in range(0, len(G), 2) for y in range(0, len(G[x]), 2))
+      return count(sum((tuple(map(lambda l: ''.join(l), zip(*[T[tuple(
+        r[x:x + 2] for r in G[y:y + 2])] for x in range(0, len(G[y]), 2)]))) for y in range(0, len(G), 2)), ()), i - 1)
     elif len(G) % 3 == 0:
-      return sum(count(T[tuple([r[y:y+3] for r in G[x:x+3]])], i - 1) for x in range(0, len(G), 3) for y in range(0, len(G[x]), 3))
+      return sum(count(T[tuple([r[x:x + 3] for r in G[y:y + 3]])], i - 1) for x in range(0, len(G), 3) for y in range(0, len(G[x]), 3))
     return 0
-  
-  print(count(G, 20))
+
+  print(count(G, 18))
 
 
 part1()
