@@ -10,31 +10,46 @@ def reader():
 
 def part1():
   f = [eval(l.replace("/", ",")) for l in reader()]
-  C = defaultdict(list)
-  S = []
+  C = defaultdict(set)
   I = {}
   for i, p1 in enumerate(f):
     I[p1] = i
-    for _, p2 in enumerate(f[i + 1:]):
-      if p1[0] in p2 or p1[1] in p2:
-        C[p1].append(p2)
-        C[p2].append(p1)
-    if 0 in p1:
-      S.append(p1)
+    C[p1[0]].add(p1)
+    C[p1[1]].add(p1)
 
   @cache
   def exp(c, U):
     m = 0
     for p in C[c]:
       if (1 << I[p]) & U == 0:
-        m = max(m, sum(p) + exp(p, U | (1 << I[p])))
+        m = max(m, sum(p) + exp(p[0] if p[0] != c else p[1], U | (1 << I[p])))
     return m
 
-  print(max(exp(s, (1 << I[s])) for s in S))
+  print(exp(0, 0))
 
 
 def part2():
-  pass
+  f = [eval(l.replace("/", ",")) for l in reader()]
+  C = defaultdict(set)
+  I = {}
+  for i, p1 in enumerate(f):
+    I[p1] = i
+    C[p1[0]].add(p1)
+    C[p1[1]].add(p1)
+
+  L = []
+
+  def expL(c, U, l):
+    nonlocal L
+    for p in C[c]:
+      if (1 << I[p]) & U == 0:
+        expL(p[0] if p[0] != c else p[1], U | (1 << I[p]), l + [p])
+    L.append(l)
+
+  expL(0, 0, [])
+  bs = max(map(len, L))
+  Ls = list(filter(lambda l: len(l) == bs, L))
+  print(max(sum(sum(l, ())) for l in Ls))
 
 
 part1()
