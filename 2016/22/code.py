@@ -41,7 +41,7 @@ def part2():
     for dx, dy in [(1, 0), (0, 1), (-1, 0), (0, -1)]:
       if yy + dy in range(Y) and xx + dx in range(X) and G[yy + dy][xx + dx][0] <= G[y][x][1]:
         Q.append((xx + dx, yy + dy, d + 1))
-  print(s + 5 * 30 + 1)
+  print(s + 5 * (X - 2) + 1)
 
 
 part1()
