@@ -27,7 +27,21 @@ def part2():
   G = [[tuple(map(lambda s: int(s[:-1]), f[2 + x * Y + y].split()[2:4]))
         for x in range(X)] for y in range(Y)]
   x, y = next((x, y) for x in range(X) for y in range(Y) if G[y][x][0] == 0)
-  print(x, y, X, Y)
+  s = 0
+  Q = [(x, y, 0)]
+  V = set()
+  while Q:
+    xx, yy, d = Q.pop(0)
+    if (xx, yy) in V:
+      continue
+    V.add((xx, yy))
+    if (xx, yy) == (X - 2, 0):
+      s = d
+      break
+    for dx, dy in [(1, 0), (0, 1), (-1, 0), (0, -1)]:
+      if yy + dy in range(Y) and xx + dx in range(X) and G[yy + dy][xx + dx][0] <= G[y][x][1]:
+        Q.append((xx + dx, yy + dy, d + 1))
+  print(s + 5 * 30 + 1)
 
 
 part1()
