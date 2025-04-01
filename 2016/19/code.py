@@ -7,11 +7,36 @@ def reader():
 
 
 def part1():
-  pass
+  n = int(reader()[0])
+  s, g = 1, 1
+  while n > 1:
+    g *= 2
+    if n % 2 == 1:
+      s += g
+    n //= 2
+  print(s)
+
+
+def viz(n, p=True):
+  l = list(range(1, n + 1))
+  i = 0
+  while len(l) > 1:
+    if p:
+      print(f'[{", ".join(map(str, l[:i]))}{", " if i > 0 else ""}\x1b[32m{l[i]}\x1b[0m{", " if i < len(l)-1 else ""}{", ".join(map(str, l[i + 1:]))}]')
+    j = (i + len(l) // 2) % len(l)
+    l.pop(j)
+    if j > i:
+      i = (i + 1)
+    i %= len(l)
+  if p:
+    print(f'[\x1b[32m{l[0]}\x1b[0m]')
+  return l[0]
 
 
 def part2():
-  pass
+  n = int(reader()[0])
+  1, 2, 6, 18
+  print([viz(i, False) for i in range(1, 83)])
 
 
 part1()
