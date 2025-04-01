@@ -1,5 +1,6 @@
 import os
 os.chdir(os.path.dirname(__file__))
+from math import log, floor
 
 
 def reader():
@@ -35,8 +36,8 @@ def viz(n, p=True):
 
 def part2():
   n = int(reader()[0])
-  1, 2, 6, 18
-  print([viz(i, False) for i in range(1, 83)])
+  m = 3 ** floor(log(n, 3))
+  print(n - m if n < 2 * m else 2 * n - 3 * m)
 
 
 part1()
