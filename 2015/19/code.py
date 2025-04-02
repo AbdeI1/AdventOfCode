@@ -21,18 +21,14 @@ def part1():
 
 def part2():
   f = reader()
-  R = {}
+  R = sorted((tuple(l.split(' => ')[::-1])
+             for l in f[:-2]), key=lambda t: -len(t[0]))
   M = f[-1]
-  for l in f[:-2]:
-    b, e = l.split(' => ')
-    R[e] = b
   A = 0
   while M != 'e':
-    for r, rr in sorted(R.items(), key=lambda t: -len(t[0])):
-      if m := search(r, M):
-        M = M[:m.start()] + rr + M[m.end():]
-        A += 1
-        break
+    m, rr = next((search(r, M), rr) for r, rr in R if r in M)
+    M = M[:m.start()] + rr + M[m.end():]
+    A += 1
   print(A)
 
 
