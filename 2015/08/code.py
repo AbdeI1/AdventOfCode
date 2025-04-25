@@ -7,11 +7,11 @@ def reader():
 
 
 def part1():
-  pass
+  print(sum(len(l) - len(eval(l)) for l in reader()))
 
 
 def part2():
-  pass
+  print(sum(l.count('"') + l.count('\\') + 2 for l in reader()))
 
 
 part1()
