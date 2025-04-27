@@ -1,5 +1,6 @@
 import os
 os.chdir(os.path.dirname(__file__))
+from collections import Counter
 
 
 def reader():
@@ -7,7 +8,9 @@ def reader():
 
 
 def part1():
-  pass
+  f = [(lambda t: Counter(t[0].replace('-', '')).most_common(5))(l.rpartition('-'))
+       for l in reader()]
+  print(f)
 
 
 def part2():
