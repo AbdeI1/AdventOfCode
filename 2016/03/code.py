@@ -7,11 +7,15 @@ def reader():
 
 
 def part1():
-  pass
+  f = [sorted(map(int, l.split())) for l in reader()]
+  print(len([z for x, y, z in f if x + y > z]))
 
 
 def part2():
-  pass
+  f = reader()
+  T = [sorted(map(int, (f[i:i + 3][k].split()[j] for k in range(3))))
+       for i in range(0, len(f), 3) for j in range(3)]
+  print(len([z for x, y, z in T if x + y > z]))
 
 
 part1()
