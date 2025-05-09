@@ -20,8 +20,8 @@ the automatic submit won't work.
 
 ## Reporting Issues
 
-The majority were only tested on my inputs and game me the right solution. While I generalized my solutions so that they don't overfit on my input, I haven't tested it on any extra inputs. If any of the solution give you the wrong answer on your input, be sure to report it as a GitHub issue and paste your input.
+The majority were only tested on my inputs and game me the right solution. While I generalized my solutions so that they don't overfit on my input, I haven't tested it on any extra inputs. If any of the solution give you the wrong answer on your input, be sure to report it as a GitHub issue and paste your input (use `wrong answer` tag).
 
 ## Additional Help
 
-If you want extra help for a solution, feel free to open an issue requesting an explanation. I will try to respond and elaborate on my solution.
+If you want extra help for a solution, feel free to open an issue requesting an explanation (use `question` tag). I will try to respond and elaborate on my solution.
