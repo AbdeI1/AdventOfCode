@@ -20,7 +20,7 @@ the automatic submit won't work.
 
 ## Reporting Issues
 
-The majority of the problems were only tested on my inputs and gave me the right solution. While I generalized my solutions so that they don't overfit on my input, I haven't tested it on any extra inputs. If any of the solutions give you the wrong answer on your input, be sure to report it as a GitHub issue and paste your input (use `wrong answer` tag).
+The majority of the problems were only tested on my inputs and gave me the right solution. While I've done by best to generalize my solutions so that they don't overfit on any particular input, I haven't tested it on extra inputs. If any of the solutions give you the wrong answer on your input, be sure to report it as a GitHub issue and paste your input (use `wrong answer` tag).
 
 ## Additional Help
 
