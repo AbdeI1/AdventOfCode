@@ -4,7 +4,7 @@ This repo contains my solutions for [Advent of Code](https://adventofcode.com/)
 
 ## Structure
 
-Each solution is designed to be self contained and not rely on any other files (with an exception for 2019 where half the problems needed and intcode interpreter, so all those problems rely on the [`intcode.py`](/2019/intcode.py) file in that directory). Additionally, for a single day, each part is also designed to not rely on the other. \
+Each solution is designed to be self contained and not rely on any other files (with an exception for 2019 where half the problems needed and intcode interpreter, so all those problems rely on the [`intcode.py`](/2019/intcode.py) file in that directory). Additionally, for any single day, each part is also designed to not rely on the other. \
 Each file is designed to read from an `input.txt` file in the same directory and will print two lines to `stdout` for solutions to part 1 and 2. \
 For the most part, only the standard library is used, however installation of some popular libraries may be required for some solutions.
 
