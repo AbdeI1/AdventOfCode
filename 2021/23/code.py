@@ -15,7 +15,7 @@ roomsI = {3: 'A', 5: 'B', 7: 'C', 9: 'D'}
 
 
 def finished(b):
-  for i in {2, 3, 4, 5}:
+  for i in range(2, b["hh"] + 1):
     for j in {3, 5, 7, 9}:
       if (i, j) not in b:
         return False
@@ -27,6 +27,7 @@ def finished(b):
 def possibleMoves(b):
   moves = []
   for (i, j) in b:
+    if i == 'h': continue
     c = b[(i, j)]
     if i == 1:
       if j < rooms[c]:
@@ -34,11 +35,11 @@ def possibleMoves(b):
           if (1, k) in b:
             break
         else:
-          for k in range(2, 6):
+          for k in range(2, b["hh"] + 1):
             if (k, rooms[c]) in b and b[(k, rooms[c])] != c:
               break
           else:
-            k = 5
+            k = b["hh"]
             while (k, rooms[c]) in b:
               k -= 1
             cost = costs[c] * (abs(k - i) + abs(rooms[c] - j))
@@ -50,18 +51,18 @@ def possibleMoves(b):
             break
           k -= 1
         else:
-          for k in range(2, 6):
+          for k in range(2, b["hh"] + 1):
             if (k, rooms[c]) in b and b[(k, rooms[c])] != c:
               break
           else:
-            k = 5
+            k = b["hh"]
             while (k, rooms[c]) in b:
               k -= 1
             cost = costs[c] * (abs(k - i) + abs(rooms[c] - j))
             moves.append((cost, (i, j), (k, rooms[c])))
     else:
       if j == rooms[c]:
-        for k in range(2, 6):
+        for k in range(2, b["hh"] + 1):
           if (k, rooms[c]) in b and b[(k, rooms[c])] != c:
             break
         else:
@@ -102,15 +103,15 @@ def move(b, m):
 
 def toString(b):
   res = ""
-  for i in range(7):
+  for i in range(b['hh'] + 2):
     for j in range(13):
       if (i, j) in b:
         res += b[(i, j)]
       elif i == 1 and 0 < j and j < 12:
         res += '.'
-      elif 2 <= i and i <= 5 and j in {3, 5, 7, 9}:
+      elif i in range(2, b['hh'] + 1) and j in {3, 5, 7, 9}:
         res += '.'
-      elif i in {3, 4, 5, 6} and j in {0, 1, 11, 12}:
+      elif i in range(3, b['hh'] + 2) and j in {0, 1, 11, 12}:
         res += ' '
       else:
         res += '#'
@@ -120,26 +121,18 @@ def toString(b):
 
 def fromString(s):
   f = s.split('\n')
-  board = {}
+  board = {"hh": -1}
   for i in range(len(f)):
     for j in range(len(f[i])):
       if f[i][j] != ' ' and f[i][j] != '.' and f[i][j] != '#':
         board[(i, j)] = f[i][j]
+        board["hh"] = max(i, board["hh"])
   return board
 
 
 def part1():
   f = reader()
-  # done by hand
-
-
-def part2():
-  f = reader()
-  board = {}
-  for i in range(len(f)):
-    for j in range(len(f[i])):
-      if f[i][j] != ' ' and f[i][j] != '.' and f[i][j] != '#':
-        board[(i, j)] = f[i][j]
+  board = fromString('\n'.join(f))
   q = [(0, toString(board))]
   visited = set()
   while len(q) > 0:
@@ -149,7 +142,29 @@ def part2():
       continue
     visited.add(s)
     if finished(b):
-      print("finished: ", cost)
+      print(cost)
+      break
+    moves = possibleMoves(b)
+    for m in moves:
+      nb = move(b, m)
+      heapq.heappush(q, (m[0] + cost, toString(nb)))
+
+
+def part2():
+  f = reader()
+  f.insert(3, "  #D#C#B#A#  ")
+  f.insert(4, "  #D#B#A#C#  ")
+  board = fromString('\n'.join(f))
+  q = [(0, toString(board))]
+  visited = set()
+  while len(q) > 0:
+    (cost, s) = heapq.heappop(q)
+    b = fromString(s)
+    if s in visited:
+      continue
+    visited.add(s)
+    if finished(b):
+      print(cost)
       break
     moves = possibleMoves(b)
     for m in moves:

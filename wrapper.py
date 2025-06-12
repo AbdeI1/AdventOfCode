@@ -4,7 +4,7 @@ import subprocess
 from aocd import get_data, submit as aocd_submit
 
 token = ''
-with open('.session.data') as f:
+with open('.session.txt') as f:
   token = f.read().strip()
 
 

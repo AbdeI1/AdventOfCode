@@ -14,7 +14,7 @@ The [`wrapper.py`](/wrapper.py) contains helpful functions that automate:
 * downloading the input and placing it in the right location
 * running the solution file and submitting whatever is printed
 
-requires the [advent-of-code-data](https://pypi.org/project/advent-of-code-data/) package as well as pasting your Advent of Code session token into a file named `.session.data` in the same directory. Check the package page for more details on how to get session token. \
+requires the [advent-of-code-data](https://pypi.org/project/advent-of-code-data/) package as well as pasting your Advent of Code session token into a file named `.session.txt` in the same directory. Check the package page for more details on how to get session token. \
 Some problems require drawing letters (or other things) in a grid, then printing out the grid to read the solution. For these problems,
 the automatic submit won't work.
 
