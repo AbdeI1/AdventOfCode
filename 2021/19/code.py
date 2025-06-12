@@ -3,7 +3,7 @@ os.chdir(os.path.dirname(__file__))
 
 
 def reader():
-  return open(f"sample.txt", 'r').read().split('\n')[:-1]
+  return open(f"input.txt", 'r').read().split('\n')[:-1]
 
 
 possibleOrientations = [([0, 1, 2], [1, 1, 1]), ([0, 2, 1], [-1, 1, 1]),

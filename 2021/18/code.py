@@ -198,7 +198,6 @@ def part1():
     for _ in range(500):
       reduce(tn)
     t = tn
-  print(toString(t))
   print(getMagnitude(t))
 
   # n = f[0]
