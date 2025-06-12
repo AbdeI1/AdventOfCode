@@ -97,7 +97,7 @@ def part2():
   print(total)
 
 
-# part1()
+part1()
 part2()
 
 
