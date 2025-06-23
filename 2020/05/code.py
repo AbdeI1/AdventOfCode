@@ -1,5 +1,6 @@
 import os
 os.chdir(os.path.dirname(__file__))
+from re import sub
 
 
 def reader():
@@ -7,11 +8,12 @@ def reader():
 
 
 def part1():
-  pass
+  print(max([int(sub(r'B|R', '1', sub(r'F|L', '0', s)), 2) for s in reader()]))
 
 
 def part2():
-  pass
+  f = set([int(sub(r'B|R', '1', sub(r'F|L', '0', s)), 2) for s in reader()])
+  print(list(set(range(min(f), max(f) + 1)) - f)[0])
 
 
 part1()
