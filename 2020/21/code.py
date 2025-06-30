@@ -98,12 +98,12 @@ def part2():
       for j in d:
         if j != x and i in d[j]:
           d[j].remove(i)
-  final = ""
+  l = []
   for i in sorted(totalAllergens):
     for x in d:
       if d[x][0] == i:
-        final += x + ','
-  print(final)
+        l.append(x)
+  print(','.join(l))
 
 
 part1()
