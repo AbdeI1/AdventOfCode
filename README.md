@@ -18,6 +18,13 @@ requires the [advent-of-code-data](https://pypi.org/project/advent-of-code-data/
 Some problems require drawing letters (or other things) in a grid, then printing out the grid to read the solution. For these problems,
 the automatic submit won't work.
 
+List of problems where output simply draws letters on grid:
+
+* 2016-08-B
+* 2018-10-A
+* 2021-13-B
+* 2022-10-B
+
 ## Reporting Issues
 
 The majority of the problems were only tested on my inputs and gave me the right solution. While I've done by best to generalize my solutions so that they don't overfit on any particular input, I haven't tested it on extra inputs. If any of the solutions give you the wrong answer on your input, be sure to report it as a GitHub issue and paste your input (use `wrong answer` tag).

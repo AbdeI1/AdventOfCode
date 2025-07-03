@@ -31,7 +31,6 @@ def part2():
   A = I[0][0]
   for (_, i), (j, _) in pairwise(I):
     A += j - i - 1
-  print(I)
   A += (1 << 32) - I[-1][-1] - 1
   print(A)
 

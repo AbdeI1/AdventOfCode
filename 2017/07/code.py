@@ -49,7 +49,6 @@ def part2():
       (n1, _), (n2, _) = Counter(w).most_common()
       for i in range(len(w)):
         if w[i] == n2:
-          print(C[n][i])
           print(W[C[n][i]] + (n1 - n2))
           w[i] = n1
     return W[n] + sum(w)
