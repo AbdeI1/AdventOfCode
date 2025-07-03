@@ -1,173 +1,167 @@
 import os
 os.chdir(os.path.dirname(__file__))
+from collections import deque
+from typing import Tuple, List
 
 
 def reader():
   return open(f"input.txt", 'r').read().splitlines()
 
 
+class Position():
+  def __init__(self, i, j):
+    self.i = i
+    self.j = j
+
+  def adj(self):
+    return [Position(self.i + di, self.j + dj) for di, dj in [(-1, 0), (0, -1), (0, 1), (1, 0)]]
+
+  def __lt__(self, other):
+    return (self.i, self.j) < (other.i, other.j)
+
+  def __add__(self, other):
+    return Position(self.i + other.i, self.j + other.j)
+
+  def __repr__(self):
+    return f"{(self.i, self.j)}"
+
+  def __eq__(self, other):
+    return self.i == other.i and self.j == other.j
+
+  def __hash__(self):
+    return hash((self.i, self.j))
+
+
+class Unit():
+  def __init__(self, p: Position, hp: int, ap: int, t: int, i: int):
+    self.position = p
+    self.hp = hp
+    self.ap = ap
+    self.team = t
+    self.id = i
+
+  def __repr__(self):
+    return f"{[self.team, self.id, self.hp, self.position, self.ap]}"
+
+  def __eq__(self, other):
+    if not isinstance(other, Unit):
+      return NotImplemented
+    return f"{self}" == f"{other}"
+
+
+class CombatEnd(Exception):
+  pass
+
+
+def play(M, U: Tuple[List[Unit], List[Unit]]):
+  for u in sorted(sum(U, []), key=lambda u: u.position):
+    if u.hp <= 0: continue
+    targets: List[Unit] = list(filter(lambda u: u.hp > 0, U[1 - u.team]))
+    if len(targets) == 0:
+      raise CombatEnd()
+    sq = {p for t in targets for p in t.position.adj()
+          if p not in M or p == u.position}
+    if u.position not in sq:
+      P = set()
+      D = -1
+      Q = deque([(u.position, 0, [])])
+      V = set()
+      while Q:
+        p, d, path = Q.popleft()
+        if D != -1 and d > D:
+          break
+        if p in V:
+          continue
+        V.add(p)
+        if p in M and M[p] != u:
+          continue
+        if p in sq:
+          P.add((p, path[0]))
+          D = d
+        for pp in p.adj():
+          Q.append((pp, d + 1, path + [pp]))
+      if P:
+        _, p = min(P)
+        del M[u.position]
+        u.position = p
+        M[p] = u
+    opps = [M[p]
+            for p in u.position.adj() if p in M and M[p] != '#' and M[p].team == 1 - u.team]
+    if opps:
+      tar = min(opps, key=lambda u: (u.hp, u.position))
+      tar.hp -= u.ap
+      if tar.hp <= 0:
+        del M[tar.position]
+  U = list(filter(lambda u: u.hp > 0, U[0])), list(
+    filter(lambda u: u.hp > 0, U[1]))
+  return U
+
+
 def part1():
-  M: list[list[str]] = list(map(list, reader()))
-  G, E = {}, {}
-  for y, row in enumerate(M):
-    for x, c in enumerate(row):
+  f = reader()
+  M = {}
+  U = [], []
+  for i, r in enumerate(f):
+    for j, c in enumerate(r):
+      p = Position(i, j)
+      if c == 'E':
+        M[p] = Unit(p, 200, 3, 0, len(U[0]))
+        U[0].append(M[p])
       if c == 'G':
-        n = f'{c}{len(G)}'
-        row[x] = n
-        G[n] = 200
-      elif c == 'E':
-        n = f'{c}{len(E)}'
-        row[x] = n
-        E[n] = 200
-
-  def bfs(p, t):
-    V = set()
-    Q = [(p, 0, [p])]
-    while Q:
-      (x, y), d, path = Q.pop(0)
-      if (x, y) in V:
-        continue
-      V.add((x, y))
-      if M[y][x][0] == t:
-        return M[y][x], d, path
-      if (x, y) != p and M[y][x] != '.':
-        continue
-      for dx, dy in [(0, -1), (-1, 0), (1, 0), (0, 1)]:
-        Q.append(((x + dx, y + dy), d + 1, path + [(x + dx, y + dy)]))
-    return '.', -1, []
-
+        M[p] = Unit(p, 200, 3, 1, len(U[1]))
+        U[1].append(M[p])
+      if c == '#':
+        M[p] = '#'
   R = 0
-  while len(E) > 0 and len(G) > 0:
-    Mo = set()
-    for y, r in enumerate(M):
-      for x, c in enumerate(r):
-        if c[0] in 'GE' and c not in Mo:
-          Mo.add(c)
-          a, d, p = bfs((x, y), 'G' if c[0] == 'E' else 'E')
-          xx, yy = x, y
-          if d > 1:
-            M[y][x] = '.'
-            xx, yy = p[1]
-            M[yy][xx] = c
-            d -= 1
-          if d == 1:
-            if c[0] == 'G':
-              hp = E[a]
-              t = p[-1]
-              for dx, dy in [(0, -1), (-1, 0), (1, 0), (0, 1)]:
-                if M[yy + dy][xx + dx][0] == 'E' and E[M[yy + dy][xx + dx]] < hp:
-                  hp = E[M[yy + dy][xx + dx]]
-                  a = M[yy + dy][xx + dx]
-                  t = xx + dx, yy + dy
-              E[a] -= 3
-              if E[a] <= 0:
-                del E[a]
-                M[t[1]][t[0]] = '.'
-            elif c[0] == 'E':
-              hp = G[a]
-              t = p[-1]
-              for dx, dy in [(0, -1), (-1, 0), (1, 0), (0, 1)]:
-                if M[yy + dy][xx + dx][0] == 'G' and G[M[yy + dy][xx + dx]] < hp:
-                  hp = G[M[yy + dy][xx + dx]]
-                  a = M[yy + dy][xx + dx]
-                  t = xx + dx, yy + dy
-              G[a] -= 3
-              if G[a] <= 0:
-                del G[a]
-                M[t[1]][t[0]] = '.'
-    R += 1
-  print(R * (sum(E.values()) + sum(G.values())))
+  try:
+    while True:
+      U = play(M, U)
+      R += 1
+  except:
+    pass
+  print(R * sum(u.hp for u in sum(U, []) if u.hp > 0))
 
 
 def part2():
-  def test(ap):
-    M: list[list[str]] = list(map(list, reader()))
-    G, E = {}, {}
-    for y, row in enumerate(M):
-      for x, c in enumerate(row):
+  f = reader()
+
+  def test(v):
+    M = {}
+    U = [], []
+    for i, r in enumerate(f):
+      for j, c in enumerate(r):
+        p = Position(i, j)
+        if c == 'E':
+          M[p] = Unit(p, 200, v, 0, len(U[0]))
+          U[0].append(M[p])
         if c == 'G':
-          n = f'{c}{len(G)}'
-          row[x] = n
-          G[n] = 200
-        elif c == 'E':
-          n = f'{c}{len(E)}'
-          row[x] = n
-          E[n] = 200
-
-    def bfs(p, t):
-      V = set()
-      Q = [(p, 0, [])]
-      while Q:
-        (x, y), d, path = Q.pop(0)
-        if (x, y) in V:
-          continue
-        V.add((x, y))
-        if M[y][x][0] == t:
-          return M[y][x], d, path + [(x, y)]
-        if (x, y) != p and M[y][x] != '.':
-          continue
-        for dx, dy in [(0, -1), (-1, 0), (1, 0), (0, 1)]:
-          Q.append(((x + dx, y + dy), d + 1, path + [(x, y)]))
-      return '.', -1, []
-
+          M[p] = Unit(p, 200, 3, 1, len(U[1]))
+          U[1].append(M[p])
+        if c == '#':
+          M[p] = '#'
     R = 0
-    el = len(E)
-    while len(E) > 0 and len(G) > 0:
-      Mo = set()
-      for y, r in enumerate(M):
-        for x, c in enumerate(r):
-          if c[0] in 'GE' and c not in Mo:
-            Mo.add(c)
-            a, d, p = bfs((x, y), 'G' if c[0] == 'E' else 'E')
-            xx, yy = x, y
-            if d > 1:
-              M[y][x] = '.'
-              xx, yy = p[1]
-              M[yy][xx] = c
-              d -= 1
-            if d == 1:
-              if c[0] == 'G':
-                hp = float('inf')
-                t = -1, -1
-                for dx, dy in [(0, -1), (-1, 0), (1, 0), (0, 1)]:
-                  if M[yy + dy][xx + dx][0] == 'E' and E[M[yy + dy][xx + dx]] < hp:
-                    hp = E[M[yy + dy][xx + dx]]
-                    a = M[yy + dy][xx + dx]
-                    t = xx + dx, yy + dy
-                E[a] -= 3
-                if E[a] <= 0:
-                  del E[a]
-                  M[t[1]][t[0]] = '.'
-              elif c[0] == 'E':
-                hp = float('inf')
-                t = -1, -1
-                for dx, dy in [(0, -1), (-1, 0), (1, 0), (0, 1)]:
-                  if M[yy + dy][xx + dx][0] == 'G' and G[M[yy + dy][xx + dx]] < hp:
-                    hp = G[M[yy + dy][xx + dx]]
-                    a = M[yy + dy][xx + dx]
-                    t = xx + dx, yy + dy
-                G[a] -= ap
-                if G[a] <= 0:
-                  del G[a]
-                  M[t[1]][t[0]] = '.'
-      R += 1
-      # print(R, G, E)
-      # for r in M:
-      #   print(''.join(c[0] for c in r))
-    return R * (sum(E.values())) if len(E) == el else 0
+    L = len(U[0])
+    try:
+      while len(U[0]) == L:
+        U = play(M, U)
+        R += 1
+    except:
+      pass
+    return R * sum(u.hp for u in U[0]) if len(U[0]) == L else 0
 
-  v = 1 << 7
-  s = v >> 1
+  b = 1 << 4
+  s = b >> 1
 
   while s > 0:
-    if test(v):
-      v -= s
+    if test(b) == 0:
+      b += s
     else:
-      v += s
+      b -= s
     s >>= 1
+  if test(b) == 0: b += 1
 
-  print(test(v) if test(v) else test(v + 1))
+  print(test(b))
 
 
 part1()
-part2()  # I give up, 62468, can't figure out what's wrong
+part2()

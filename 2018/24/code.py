@@ -148,14 +148,12 @@ def part2():
   s = b >> 1
 
   while s > 0:
-    a1, a2 = test(b - 1), test(b)
-    if len(a1[0]) == 0 and len(a2[0]) > 0:
-      break
-    elif len(a2[0]) == 0:
+    if len(test(b)[0]) == 0:
       b += s
     else:
       b -= s
     s >>= 1
+  if len(test(b)[0]) == 0: b += 1
 
   A = test(b)
   print(sum(sum(g.units for g in a) for a in A))
