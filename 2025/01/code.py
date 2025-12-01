@@ -1,5 +1,8 @@
 import os
 os.chdir(os.path.dirname(__file__))
+from itertools import accumulate
+from functools import reduce
+from collections import Counter
 
 
 def reader():
@@ -7,37 +10,11 @@ def reader():
 
 
 def part1():
-  f = reader()
-  D = 50
-  A = 0
-  for r in f:
-    d = r[0]
-    n = int(r[1:])
-    if d == 'R':
-      D += n
-    else:
-      D -= n
-    D %= 100
-    if D == 0:
-      A += 1
-  print(A)
+  print(Counter(accumulate(reader(), lambda d, r: (d + {'R': 1, 'L': -1}[r[0]] * int(r[1:])) % 100, initial=50))[0])
 
 
 def part2():
-  f = reader()
-  D = 50
-  A = 0
-  for r in f:
-    d = r[0]
-    n = int(r[1:])
-    if d == 'R':
-      A += ((D + n) // 100)
-      D += n
-    else:
-      A += ((n + (-D % 100)) // 100)
-      D -= n
-    D %= 100
-  print(A)
+  print(reduce(lambda d, r: ((d[0] + {'R': 1, 'L': -1}[r[0]] * int(r[1:])) % 100, d[1] + (int(r[1:]) + {'R': 1, 'L': -1}[r[0]] * d[0] % 100) // 100), reader(),initial=(50, 0))[1])
 
 
 part1()
