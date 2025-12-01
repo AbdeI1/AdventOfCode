@@ -7,11 +7,37 @@ def reader():
 
 
 def part1():
-  pass
+  f = reader()
+  D = 50
+  A = 0
+  for r in f:
+    d = r[0]
+    n = int(r[1:])
+    if d == 'R':
+      D += n
+    else:
+      D -= n
+    D %= 100
+    if D == 0:
+      A += 1
+  print(A)
 
 
 def part2():
-  pass
+  f = reader()
+  D = 50
+  A = 0
+  for r in f:
+    d = r[0]
+    n = int(r[1:])
+    if d == 'R':
+      A += ((D + n) // 100)
+      D += n
+    else:
+      A += ((n + (-D % 100)) // 100)
+      D -= n
+    D %= 100
+  print(A)
 
 
 part1()
