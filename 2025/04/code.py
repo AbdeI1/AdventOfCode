@@ -7,11 +7,51 @@ def reader():
 
 
 def part1():
-  pass
+  f = reader()
+  A = 0
+  for i in range(len(f)):
+    for j in range(len(f[i])):
+      if f[i][j] == '@':
+        c = 0
+        for di in range(-1, 2):
+          for dj in range(-1, 2):
+            if di == 0 and dj == 0: continue
+            ii = i + di
+            jj = j + dj
+            if ii in range(len(f)) and jj in range(len(f[ii])) and f[ii][jj] == '@':
+              c += 1
+        if c < 4:
+          A += 1
+  print(A)
 
 
 def part2():
-  pass
+  f = [list(r) for r in reader()]
+
+  def rem():
+    A = 0
+    for i in range(len(f)):
+      for j in range(len(f[i])):
+        if f[i][j] == '@':
+          c = 0
+          for di in range(-1, 2):
+            for dj in range(-1, 2):
+              if di == 0 and dj == 0: continue
+              ii = i + di
+              jj = j + dj
+              if ii in range(len(f)) and jj in range(len(f[ii])) and f[ii][jj] == '@':
+                c += 1
+          if c < 4:
+            f[i][j] = 'x'
+            A += 1
+    return A
+  
+  a = rem()
+  t = a
+  while a != 0:
+    a = rem()
+    t += a
+  print(t)
 
 
 part1()
