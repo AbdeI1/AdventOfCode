@@ -46,12 +46,10 @@ def part2():
             A += 1
     return A
   
-  a = rem()
-  t = a
+  A = a = rem()
   while a != 0:
-    a = rem()
-    t += a
-  print(t)
+    A += (a := rem())
+  print(A)
 
 
 part1()
