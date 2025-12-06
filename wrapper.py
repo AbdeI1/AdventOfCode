@@ -60,7 +60,7 @@ def submit(year, day):
     aocd_submit(out[1], part="b", year=year, day=day, session=token)
 
 
-y, d = 2025, 5
+y, d = 2025, 6
 
 fetch(y, d)
 submit(y, d)
