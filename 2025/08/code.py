@@ -27,9 +27,6 @@ def part1():
   for _, (i, j) in L[:C]:
     if find(i) != find(j):
       P[find(i)] = P[find(j)]
-      C -= 1
-    if C <= 1:
-      break
 
   D = defaultdict(int)
   for i in range(len(f)):
@@ -58,7 +55,7 @@ def part2():
     if find(i) != find(j):
       P[find(i)] = P[find(j)]
       C += 1
-    if C == len(P) - 1:
+    if C >= len(P) - 1:
       print(f[i][0] * f[j][0])
       break
 
