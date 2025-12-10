@@ -3,7 +3,7 @@ os.chdir(os.path.dirname(__file__))
 from collections import deque
 from heapq import heappop, heappush
 import numpy
-from pulp import *
+from pulp import LpVariable, LpProblem, LpInteger, LpMinimize, PULP_CBC_CMD, value
 
 
 def reader():
@@ -38,7 +38,6 @@ def part2():
   for _, B, E in f:
     M = numpy.array([[1 if i in b else 0 for i in range(len(E))] for b in B]).T
     Y = numpy.array(E)
-    # X = M.T @ numpy.linalg.inv(M @ M.T) @ Y
     X = [LpVariable(f"x{i}", 0, cat=LpInteger) for i in range(len(B))]
     prob = LpProblem("problem", LpMinimize)
     for i in range(len(M)):
@@ -47,7 +46,6 @@ def part2():
     prob.solve(PULP_CBC_CMD(msg=0))
     s = int(sum(value(x) for x in X))
     A += s
-    # print(s)
   print(A)
 
 
